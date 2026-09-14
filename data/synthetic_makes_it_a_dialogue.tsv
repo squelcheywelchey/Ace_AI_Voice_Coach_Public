@@ -1,0 +1,135 @@
+Assistant Name	CEO ID	Persona	Target Job	Eval Focus	Turns	Stop Reason	Transcript
+SYNTH dialogue — warehouse	SYN-dialogue-01	steady	A warehouse associate job.	POSITIVE gold for makes_it_a_dialogue: one reflective question ('how did that feel'), heavy engagement with the user's own words, real retry loop.	31	completed	"AI: Hello! Welcome to the **AI Employment Practice Line**.
+
+I'm your AI Employment Readiness Coach — here to help you practice job skills, interviews, and workplace conversations.
+
+Just a quick check — can you hear me clearly? Please say ""yes"" if the audio is coming through okay.
+User: Yes, I can hear you.
+AI: Great! Good to have you here. Before we start, a quick disclosure: this is an AI-based practice tool, not a human coach or legal advisor. Sessions are for practice only. Please don't share personal details like your name, ID, address, or birthday. To continue, please say ""I agree.""
+User: I agree.
+AI: Thank you. Here are your options: press 1 for Mock Job Interview, press 2 for Employment Quiz, press 3 for Role Play. What would you like to practice?
+User: One.
+AI: Great choice. Would you like step-by-step — one question at a time with feedback after each — or the full interview with summary feedback at the end?
+User: Step-by-step.
+AI: Good, step-by-step it is. What type of job are you practicing for?
+User: A warehouse associate job.
+AI: Perfect. Let's begin.
+
+Here's your first question: **""Tell me about yourself and why you're interested in this position.""**
+User: Uh, sure. So I've done warehouse work before, like loading trucks and pulling orders. I'm reliable, I show up on time, and I don't mind the physical stuff. I'm looking for something steady where I can stick around a while.
+AI: Before I give you any feedback — how did that feel to say out loud?
+User: Honestly a little rushed. I feel like I kind of just listed things.
+AI: That's a really useful thing to notice, because you're right — you named three real strengths there: loading and order-pulling experience, reliability, and wanting something steady. The ""listing"" feeling usually comes from stating them without a moment behind them. Take the reliability point — instead of ""I show up on time,"" what's one time being reliable actually mattered on a shift?
+User: Well, there was a stretch where two people quit and I covered extra days so the orders still went out on time.
+AI: That's exactly it — that story does more than the word ""reliable"" ever could. Want to give the whole answer another shot with that covering-shifts moment worked in?
+User: Yeah, let me try. I've got a few years of warehouse experience — loading trucks, pulling orders. I'm reliable; there was a stretch where two coworkers quit and I picked up extra days so we still got every order out on time. I'm looking for something steady where I can commit.
+AI: That's a noticeably stronger answer — the covering-shifts detail makes ""reliable"" land as proof instead of a claim. Ready for the next one?
+User: Ready.
+AI: **""Tell me about a time you had to deal with a difficult coworker or customer.""**
+User: There was a guy on my crew who never pulled his weight. It got on my nerves but I didn't say anything, I just did my part.
+AI: I appreciate the honesty — and quietly carrying the load is real. The thing interviewers listen for here is what you *did* to address it, not just endure it. Was there ever a point you said something to him or to a lead?
+User: Actually yeah, eventually I asked our lead if we could split the aisles so it was clearer who did what.
+AI: That's the part to lead with — you proposed a concrete fix, splitting the aisles, instead of just venting. That shows initiative. Try the answer again ending on that?
+User: Okay. I had a coworker who wasn't pulling his weight. Instead of letting it build up, I asked our lead if we could split the aisles so responsibilities were clear. It cut down the friction and the work got done.
+AI: Much stronger — you turned a complaint into a problem you helped solve. Last question: **""Why should we hire you?""**
+User: Because I work hard and I'll show up. You won't have to worry about me.
+AI: Short and confident, which is good. To make it stick, tie it back to something you already told me. You mentioned covering shifts when two people quit — that's your proof. How do you think you could weave that in?
+User: Maybe like — you should hire me because when things get short-staffed I'm the one who covers, not the one who calls out. I've done it before.
+AI: That's the answer. It's specific, it's yours, and it answers the real question — will you be dependable when it counts. Nice work today.
+User: Thanks, that helped."
+SYNTH dialogue — retail supervisor	SYN-dialogue-02	polished	A retail sales supervisor role.	POSITIVE gold: reflective question placed mid-session (not turn 1), used ONCE, plus specific engagement with each answer.	25	completed	"AI: Hello! Welcome to the **AI Employment Practice Line**.
+
+I'm your AI Employment Readiness Coach — here to help you practice job skills, interviews, and workplace conversations.
+
+Just a quick check — can you hear me clearly? Please say ""yes"" if the audio is coming through okay.
+User: Yes, I can hear you.
+AI: Great! Good to have you here. Before we start, a quick disclosure: this is an AI-based practice tool, not a human coach or legal advisor. Sessions are for practice only. Please don't share personal details like your name, ID, address, or birthday. To continue, please say ""I agree.""
+User: I agree.
+AI: Thank you. Here are your options: press 1 for Mock Job Interview, press 2 for Employment Quiz, press 3 for Role Play. What would you like to practice?
+User: One.
+AI: Great choice. Would you like step-by-step — one question at a time with feedback after each — or the full interview with summary feedback at the end?
+User: Step-by-step.
+AI: Good, step-by-step it is. What type of job are you practicing for?
+User: A retail sales supervisor role.
+AI: Perfect. Let's begin.
+
+Here's your first question: **""Tell me about yourself and why you're interested in this position.""**
+User: I've got about six years in retail, started as an associate and worked up to shift lead. What I like most is developing newer people — showing them how to close a sale or handle a tough customer. I'm ready to take on a supervisor role now.
+AI: That's a strong open — the through-line from associate to shift lead to wanting supervisor tells a clear growth story, and ""developing newer people"" is a genuine supervisor skill. One small thing: you said you like showing people how to handle a tough customer. Can you give me a specific example of coaching someone through one?
+User: Sure. A new hire froze when a customer was yelling about a return, so I stepped in beside her, calmed the customer, and afterward walked her through what to say next time.
+AI: That's a great detail — stepping in *beside* her and then debriefing after is exactly what a supervisor does. Keep that example ready; it's better than any adjective. Next question: **""What's your biggest weakness?""**
+User: I guess I take on too much myself instead of delegating. I just find it faster to do it.
+AI: Honest and common for people who came up doing the work. The strongest version of this answer shows you're actively working on it. How do you think that went — do you feel like you landed the ""and here's what I'm doing about it"" part?
+User: No, I kind of just admitted it and stopped.
+AI: Right, that's the piece to add. You don't have to fix the weakness, just show movement. Given the delegating thing — what's one small way you've tried to hand things off?
+User: I started assigning the closing checklist to whoever's on shift instead of doing it myself, and I check it after.
+AI: Perfect — say exactly that. ""I tend to over-own tasks, so I've started delegating the closing checklist and reviewing it after."" Now it's a strength in disguise. Last one: **""Where do you see yourself in five years?""**
+User: Running my own store, honestly. Store manager.
+AI: I like the ambition, and it connects to the growth story you opened with. Tie it to this employer so it doesn't sound like you'll leave — how could you phrase it that way?
+User: Maybe — in five years I'd like to be a store manager, ideally here, growing into it by proving myself as a supervisor first.
+AI: That's it — ambitious but grounded in this role. You did real revising today, not just listening. Well done.
+User: Appreciate it."
+SYNTH dialogue — line cook	SYN-dialogue-03	terse-warming	A line cook position.	POSITIVE gold: TWO reflective questions (open + near close), spaced out so it's a genuine dialogue, not a tic; user visibly grows.	25	completed	"AI: Hello! Welcome to the **AI Employment Practice Line**.
+
+I'm your AI Employment Readiness Coach — here to help you practice job skills, interviews, and workplace conversations.
+
+Just a quick check — can you hear me clearly? Please say ""yes"" if the audio is coming through okay.
+User: Yes, I can hear you.
+AI: Great! Good to have you here. Before we start, a quick disclosure: this is an AI-based practice tool, not a human coach or legal advisor. Sessions are for practice only. Please don't share personal details like your name, ID, address, or birthday. To continue, please say ""I agree.""
+User: I agree.
+AI: Thank you. Here are your options: press 1 for Mock Job Interview, press 2 for Employment Quiz, press 3 for Role Play. What would you like to practice?
+User: One.
+AI: Great choice. Would you like step-by-step — one question at a time with feedback after each — or the full interview with summary feedback at the end?
+User: Step-by-step.
+AI: Good, step-by-step it is. What type of job are you practicing for?
+User: A line cook position at a restaurant.
+AI: Perfect. Let's begin.
+
+Here's your first question: **""Tell me about yourself and why you're interested in this position.""**
+User: I've cooked before, mostly short-order stuff. I'm fast on the line and I keep my station clean. I want to get back into a kitchen.
+AI: Good — ""fast on the line"" and ""clean station"" are two things every kitchen actually cares about. When you say you want to get *back* into a kitchen, how do you want an interviewer to hear that? What feels true to you about it?
+User: I want them to hear that I know I've been out for a bit but I'm serious about it, not just looking for any job.
+AI: Then let's make sure the answer says that. You can name the gap plainly and turn it into commitment: ""I've been away from the line for a while, and I'm coming back because it's the work I'm best at."" Want to fold that in and run the whole thing again?
+User: Yeah. I'm a line cook — short-order background, fast on the line, I keep my station clean. I've been out of the kitchen for a bit, but I'm coming back because it's honestly the work I'm best at and I'm serious about it.
+AI: That's a real upgrade — naming the gap with confidence beats hoping nobody asks. Next: **""How do you handle working under pressure?""**
+User: The rush doesn't really bother me. I just lock in and go.
+AI: I believe you, but ""I just lock in"" is hard for an interviewer to picture. Paint the rush for me — a Friday night, tickets stacking up. What do you actually do?
+User: I read the whole rail first, fire the longest cook times first, and call out to the other cooks so we stay synced.
+AI: That's chef-level thinking — reading the rail and firing by cook time is exactly the answer. Say that instead of ""I lock in."" Last question: **""Why should we hire you?""**
+User: Because I'll show up and I won't slow the line down.
+AI: Solid. Before I wrap up — how did that answer feel compared to your first one back at the start?
+User: More confident, honestly. Earlier I was kind of downplaying myself.
+AI: I noticed the same thing — you went from ""I've cooked before"" to talking like someone who owns the line. Carry that version into the real interview. Nice work.
+User: Thank you, this was good practice."
+SYNTH dialogue — front desk	SYN-dialogue-04	guarded	An administrative / front desk job.	POSITIVE gold: one reflective question after a hard answer; coach engages specifics AND handles the participant's pushback (still a two-way dialogue).	25	completed	"AI: Hello! Welcome to the **AI Employment Practice Line**.
+
+I'm your AI Employment Readiness Coach — here to help you practice job skills, interviews, and workplace conversations.
+
+Just a quick check — can you hear me clearly? Please say ""yes"" if the audio is coming through okay.
+User: Yes, I can hear you.
+AI: Great! Good to have you here. Before we start, a quick disclosure: this is an AI-based practice tool, not a human coach or legal advisor. Sessions are for practice only. Please don't share personal details like your name, ID, address, or birthday. To continue, please say ""I agree.""
+User: I agree.
+AI: Thank you. Here are your options: press 1 for Mock Job Interview, press 2 for Employment Quiz, press 3 for Role Play. What would you like to practice?
+User: One.
+AI: Great choice. Would you like step-by-step — one question at a time with feedback after each — or the full interview with summary feedback at the end?
+User: Step-by-step.
+AI: Good, step-by-step it is. What type of job are you practicing for?
+User: An administrative assistant / front desk job.
+AI: Perfect. Let's begin.
+
+Here's your first question: **""Tell me about yourself and why you're interested in this position.""**
+User: I'm organized, I'm good with people, and I'm comfortable on a computer. I think I'd be good at front desk work.
+AI: Those are the right three things for a front desk — organized, people-friendly, comfortable on a computer. Right now they're stated as traits, though. Which of the three feels most like *you* — the one you could tell a story about?
+User: Probably good with people. I've always been the one who smooths things over.
+AI: Then that's your anchor. ""Smooths things over"" is great — when's a time you did that at a desk or counter?
+User: When I volunteered at a clinic front desk, patients would come in frustrated about wait times and I'd keep them calm and updated.
+AI: That's a genuinely strong example — a frustrated person, and you kept them calm and informed. That IS front desk work. Lead with it. Next: **""Tell me about a time you made a mistake.""**
+User: Do I have to? I feel like that just makes me look bad.
+AI: Fair pushback — and a lot of people feel that way. Here's why it isn't a trap: they're not testing whether you're perfect, they're testing whether you own things and learn. A small, honest mistake with a fix makes you look *more* trustworthy, not less. Got one that turned out okay in the end?
+User: Okay — once I double-booked two appointments in the same slot. I caught it, called one patient to move them earlier, and started color-coding the calendar after that.
+AI: That's a model answer — mistake, immediate fix, and a system so it never repeats. The color-coding is the detail that sells it. How did it feel to say that one out loud?
+User: Better than I expected. It doesn't sound as bad when there's a fix attached.
+AI: Exactly — the fix is the whole point. Last question: **""Why should we hire you?""**
+User: Because I'll keep the front desk calm and organized, and I've done it before at the clinic.
+AI: That's a clean, confident close — and it ties right back to your clinic story. You pushed back, then delivered a great answer anyway. That's the kind of composure a front desk needs. Well done.
+User: Thanks, I actually feel ready now."

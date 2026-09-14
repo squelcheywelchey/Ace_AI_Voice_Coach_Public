@@ -1,0 +1,137 @@
+Assistant Name	CEO ID	Persona	Target Job	Eval Focus	Turns	Stop Reason	Transcript
+SYNTH tricky+ — buried STT reflective Q	SYN-tricky-01	disfluent-voice	A warehouse / forklift job.	TRICKY POSITIVE: reflective question ('how did that feel') buried in heavy disfluent STT + specifics engaged. Pass.	19	completed	"AI: Hello! Welcome to the **AI Employment Practice Line**.
+
+I'm your AI Employment Readiness Coach — here to help you practice job skills, interviews, and workplace conversations.
+
+Just a quick check — can you hear me clearly? Please say ""yes"" if the audio is coming through okay.
+User: Yes, I can hear you.
+AI: Great! Good to have you here. Before we start, a quick disclosure: this is an AI-based practice tool, not a human coach or legal advisor. Sessions are for practice only. Please don't share personal details like your name, ID, address, or birthday. To continue, please say ""I agree.""
+User: I agree.
+AI: Thank you. Here are your options: press 1 for Mock Job Interview, press 2 for Employment Quiz, press 3 for Role Play. What would you like to practice?
+User: One.
+AI: Great choice. Would you like step-by-step — one question at a time with feedback after each — or the full interview with summary feedback at the end?
+User: Step-by-step.
+AI: Good, step-by-step it is. What type of job are you practicing for?
+User: A warehouse and forklift operator job.
+AI: Perfect. Let's begin.
+
+Here's your first question: **""Tell me about yourself and why you're interested in this position.""**
+User: Uh yeah so I I've done warehouse a few years, I'm forklift certified, sit-down and and reach truck, and uh one time the the dock guy no-showed and I just I covered the whole dock myself that shift. I'm I'm looking for steady honestly.
+AI: Okay, okay — good. Before I, before I even get into the feedback part, I'm I'm curious — how'd that, how did that feel to you, saying it out loud just now?
+User: Kinda fast. I feel like I I rushed the forklift part.
+AI: Yeah, and that's a good catch, 'cause the the forklift cert and covering the dock solo — that's, that's the strongest stuff you've got and you kind of blew past it. The no-show, you-cover-the-whole-dock moment, that's the one to slow down on. Wanna, wanna run it again and and land on that?
+User: Sure. I've got a few years in the warehouse, I'm forklift certified on sit-down and reach truck. One time our dock lead no-showed and I covered the entire dock that shift so nothing shipped late. I'm looking for something steady.
+AI: There it is — slowing down on the dock save makes ""reliable"" something I can see, not just a word. Next question: **""What are your greatest strengths?""**
+User: I'd say I'm dependable and I don't need somebody watching me.
+AI: Both good, and they fit the dock story you just told — you didn't wait to be told to cover, you just did. Tie that example to ""dependable"" and it's airtight. Good work today.
+User: Appreciate it, this helped."
+SYNTH tricky+ — one reflective Q amid templated	SYN-tricky-02	efficient	A delivery driver position.	TRICKY POSITIVE: coach is mostly brisk/templated but asks ONE genuine reflective question and engages specifics on that turn. Pass by the 'at least one' bar.	25	completed	"AI: Hello! Welcome to the **AI Employment Practice Line**.
+
+I'm your AI Employment Readiness Coach — here to help you practice job skills, interviews, and workplace conversations.
+
+Just a quick check — can you hear me clearly? Please say ""yes"" if the audio is coming through okay.
+User: Yes, I can hear you.
+AI: Great! Good to have you here. Before we start, a quick disclosure: this is an AI-based practice tool, not a human coach or legal advisor. Sessions are for practice only. Please don't share personal details like your name, ID, address, or birthday. To continue, please say ""I agree.""
+User: I agree.
+AI: Thank you. Here are your options: press 1 for Mock Job Interview, press 2 for Employment Quiz, press 3 for Role Play. What would you like to practice?
+User: One.
+AI: Great choice. Would you like step-by-step — one question at a time with feedback after each — or the full interview with summary feedback at the end?
+User: Step-by-step.
+AI: Good, step-by-step it is. What type of job are you practicing for?
+User: A delivery driver position.
+AI: Perfect. Let's begin.
+
+Here's your first question: **""Tell me about yourself and why you're interested in this position.""**
+User: I've driven for about three years, mostly local routes. I know the area well and I've got a clean record.
+AI: Good. To strengthen it: 1) lead with the clean record, 2) name the route type, 3) tie it to reliability. Would you like to try again or move to the next question?
+User: Move on.
+AI: **""How do you handle tight delivery deadlines?""**
+User: I plan my route the night before so I'm not scrambling, and I text dispatch early if something's off.
+AI: How do you think that one went?
+User: Honestly? Pretty good, I felt solid on that one.
+AI: I'd agree — and here's why it worked where the first answer didn't: you gave a concrete habit, planning the route the night before and flagging dispatch early, instead of a general trait. That specific routine is exactly what a dispatcher wants to hear. Keep answering the rest like that one. Next: **""What's a weakness?""**
+User: I can be a perfectionist about my truck being organized.
+AI: Fair. Frame it as a strength you manage: 1) name it, 2) say how you keep it from slowing you down. Would you like to try again or move on?
+User: Move on.
+AI: **""Why should we hire you?""**
+User: Because I'm reliable and I know the routes.
+AI: Solid — and remember, your route-planning answer is the proof of ""reliable,"" so lean on that. That's all my questions. Nice work.
+User: Thanks."
+SYNTH tricky+ — unusual reflective phrasing	SYN-tricky-03	reflective	A customer service role.	TRICKY POSITIVE: reflective question uses non-canonical wording ('if you played that back, what would you tighten?') — must be recognized by category, not keyword. Pass.	19	completed	"AI: Hello! Welcome to the **AI Employment Practice Line**.
+
+I'm your AI Employment Readiness Coach — here to help you practice job skills, interviews, and workplace conversations.
+
+Just a quick check — can you hear me clearly? Please say ""yes"" if the audio is coming through okay.
+User: Yes, I can hear you.
+AI: Great! Good to have you here. Before we start, a quick disclosure: this is an AI-based practice tool, not a human coach or legal advisor. Sessions are for practice only. Please don't share personal details like your name, ID, address, or birthday. To continue, please say ""I agree.""
+User: I agree.
+AI: Thank you. Here are your options: press 1 for Mock Job Interview, press 2 for Employment Quiz, press 3 for Role Play. What would you like to practice?
+User: One.
+AI: Great choice. Would you like step-by-step — one question at a time with feedback after each — or the full interview with summary feedback at the end?
+User: Step-by-step.
+AI: Good, step-by-step it is. What type of job are you practicing for?
+User: A customer service representative role.
+AI: Perfect. Let's begin.
+
+Here's your first question: **""Tell me about yourself and why you're interested in this position.""**
+User: I've worked retail and a call center. I like helping people solve problems, and I stay calm when someone's upset.
+AI: Nice — ""I stay calm when someone's upset"" is gold for customer service. Quick one before feedback: if you played that answer back to yourself, what's the one part you'd tighten?
+User: Probably the retail and call center part, it sounded like a list.
+AI: Exactly the instinct I'd have too. The calm-under-pressure piece is your headline; the job history is just support for it. Lead with the calm, back it with a call-center example. Want to try?
+User: Sure. I'm someone who stays calm when a customer's upset — I learned that in a call center handling billing complaints, where I'd let people vent, then walk them to a fix. I genuinely like solving the problem.
+AI: Much stronger — the billing-complaint detail makes ""calm"" concrete. Next: **""Tell me about a hard customer.""**
+User: A guy was furious about a late order. I apologized, found his order, and got it expedited same day.
+AI: That's a clean example — apology, action, resolution, in one breath. That's the structure to reuse. Well done today.
+User: Thank you."
+SYNTH tricky+ — reflective Q only at wrap-up	SYN-tricky-04	steady	A maintenance / janitorial job.	TRICKY POSITIVE: session reads one-way until the closing turn, where the ONLY reflective question appears ('how do you feel you did today?') + specific engagement. Pass ('anywhere in the session').	19	completed	"AI: Hello! Welcome to the **AI Employment Practice Line**.
+
+I'm your AI Employment Readiness Coach — here to help you practice job skills, interviews, and workplace conversations.
+
+Just a quick check — can you hear me clearly? Please say ""yes"" if the audio is coming through okay.
+User: Yes, I can hear you.
+AI: Great! Good to have you here. Before we start, a quick disclosure: this is an AI-based practice tool, not a human coach or legal advisor. Sessions are for practice only. Please don't share personal details like your name, ID, address, or birthday. To continue, please say ""I agree.""
+User: I agree.
+AI: Thank you. Here are your options: press 1 for Mock Job Interview, press 2 for Employment Quiz, press 3 for Role Play. What would you like to practice?
+User: One.
+AI: Great choice. Would you like step-by-step — one question at a time with feedback after each — or the full interview with summary feedback at the end?
+User: Step-by-step.
+AI: Good, step-by-step it is. What type of job are you practicing for?
+User: A building maintenance / janitorial job.
+AI: Perfect. Let's begin.
+
+Here's your first question: **""Tell me about yourself and why you're interested in this position.""**
+User: I've done maintenance for years — plumbing fixes, painting, general upkeep. I take pride in a building that's kept up right.
+AI: Good — ""pride in a building kept up right"" is a nice line, and the plumbing-and-painting range shows breadth. Add one specific repair you're proud of and it's stronger. Next: **""How do you prioritize when several things break at once?""**
+User: Safety first — anything that's a hazard, like water or electrical, before cosmetic stuff.
+AI: That's the right instinct, and naming hazard-before-cosmetic shows judgment. A supervisor hears that and trusts you unsupervised. Next: **""Tell me about a time you fixed something tricky.""**
+User: A recurring leak nobody could find — I traced it to a cracked pipe behind a wall and patched it before it caused damage.
+AI: Strong — tracing the leak behind the wall is a real problem-solving story. Keep it. That's the last question — and before we wrap, let me ask: looking back over the three answers, how do you feel you did today?
+User: Better than I expected, honestly. The leak one felt the strongest.
+AI: I'd agree the leak story was your strongest — it had a problem, your action, and the outcome, which is exactly the shape interviewers want. Open every answer with that much specificity and you're set. Nice work.
+User: Thanks, appreciate it."
+SYNTH tricky+ — participant deflects reflective Q	SYN-tricky-05	terse	A security guard position.	TRICKY POSITIVE: coach asks a reflective question, participant deflects ('I don't know, fine'), coach still engages specifics. Scores the COACH's move -> pass.	19	completed	"AI: Hello! Welcome to the **AI Employment Practice Line**.
+
+I'm your AI Employment Readiness Coach — here to help you practice job skills, interviews, and workplace conversations.
+
+Just a quick check — can you hear me clearly? Please say ""yes"" if the audio is coming through okay.
+User: Yes, I can hear you.
+AI: Great! Good to have you here. Before we start, a quick disclosure: this is an AI-based practice tool, not a human coach or legal advisor. Sessions are for practice only. Please don't share personal details like your name, ID, address, or birthday. To continue, please say ""I agree.""
+User: I agree.
+AI: Thank you. Here are your options: press 1 for Mock Job Interview, press 2 for Employment Quiz, press 3 for Role Play. What would you like to practice?
+User: One.
+AI: Great choice. Would you like step-by-step — one question at a time with feedback after each — or the full interview with summary feedback at the end?
+User: Step-by-step.
+AI: Good, step-by-step it is. What type of job are you practicing for?
+User: A security guard position.
+AI: Perfect. Let's begin.
+
+Here's your first question: **""Tell me about yourself and why you're interested in this position.""**
+User: I've done security at a warehouse and an apartment complex. I'm observant, I stay alert on long shifts, and I don't panic.
+AI: Good — ""I don't panic"" and staying alert on long shifts are exactly the traits for this. How do you think that answer went?
+User: I don't know. Fine, I guess.
+AI: Fair enough — I'll tell you what worked: the two settings, warehouse and apartment complex, plus ""I don't panic,"" give a clear picture fast. What's missing is one moment that proves it. Was there ever a night something actually went wrong?
+User: Yeah, once I caught someone trying to jump the fence and I called it in and kept eyes on him till police came.
+AI: That's the story — caught it, called it in, maintained visual until police arrived. That single example does more than any adjective. Lead with it. Last question: **""Why should we hire you?""**
+User: Because I'm reliable and I stay alert.
+AI: Good, and now you've got the fence example to prove ""alert"" — use it. That's all my questions. Well done.
+User: Thanks."
