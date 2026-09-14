@@ -1,0 +1,50 @@
+# adapts_when_stuck — v2
+# ONE change from v1: raise the SIGNAL bar (Cluster 1). Define what counts as a
+#   genuine stuck/frustrated/confused signal vs. routine non-signals, so the judge
+#   stops false-firing PASS on calm calls. Adaptation wording and call-level
+#   aggregation are unchanged from v1 (those are v3 / v4).
+# Ruling: tune to the calibration labels (Maya, 2026-07-20) — stricter than
+#   Option-A-as-written.
+
+dimension: adapts_when_stuck
+
+definition: >
+  When the user shows GENUINE frustration, confusion, or being-stuck, does the
+  coach make a responsive change? Evaluate the COACH's (AI:) turns only. These
+  are speech-to-text transcripts, so expect disfluencies and split/merged turns.
+  The threshold for "a signal" is high: most sessions have NO such moment and the
+  correct verdict is N/A. Do not treat ordinary interview-practice friction as a
+  signal.
+
+pass: >
+  Somewhere in the session the user shows a GENUINE signal AND the coach responds
+  to it with a responsive change (slowing down / reassuring — "Take your time",
+  reframing or simplifying the question, or redirecting genuine agitation back to
+  the task).
+
+  A GENUINE signal is the user actually unable to proceed or visibly distressed —
+  e.g. "I don't really have an answer for that" / "oh, man..." (can't produce an
+  answer at all), "I'm lost for words", "I lost you for a second" (couldn't hear),
+  profanity-as-frustration ("Fuck this"), or escalating agitation. A single clear
+  genuine signal handled responsively is enough to PASS.
+
+fail: >
+  A clear, GENUINE signal (as defined above) is met with the coach continuing the
+  scripted template UNCHANGED — most tellingly, the identical canned line repeated
+  while the user's agitation or confusion escalates. The coach presses on as if
+  the signal were not there.
+
+na: >
+  No GENUINE stuck / frustrated / confused moment occurs anywhere — there is no
+  signal to adapt to. This is the correct, most-common verdict. In particular the
+  following are NOT signals, and a call whose only "moments" are these is N/A:
+    - routine clarification: "repeat the question", "what was that? sorry", "say
+      that again";
+    - being finished / nothing more to add: "I don't know what else to say",
+      "that's it", "next question";
+    - a brief pause: "hold on", "one second";
+    - a single off-topic remark or news/story tangent the user isn't distressed
+      about;
+    - simply terse, low-effort, or short answers.
+  Do NOT invent a stuck moment. If the user never shows a genuine signal, return
+  N/A — never PASS or FAIL.

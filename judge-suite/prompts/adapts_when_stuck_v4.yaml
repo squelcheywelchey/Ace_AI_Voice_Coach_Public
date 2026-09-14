@@ -1,0 +1,66 @@
+# adapts_when_stuck — v4
+# Built on v2 (champion, 78.3%). Encodes Maya's rulings (2026-07-20) as carve-outs:
+#   - Cluster 2: the stock feedback template / retry-offer / repeated canned line is
+#     NOT an adaptation; a genuine signal met only with these = FAIL (536, 609).
+#   - Fail-dominant aggregation so one ignored genuine signal = FAIL even if another
+#     moment was handled (536 has an ignored "Fuck this" + a later good "take your time").
+#   - Sustained disengagement/deflection PATTERN is a genuine signal (577).
+#   - "can't find the words / lost for words" IS a genuine signal (166) — removed from
+#     the non-signal list.
+#   - Garbled/incoherent speech ALONE (no explicit cue, no deflection pattern) stays
+#     N/A (164, accepted mismatch — judge correct, label too strict).
+# Signal recognition otherwise inherits v2 (keeps 358 PASS; avoid v3's over-conservatism).
+
+dimension: adapts_when_stuck
+
+definition: >
+  When the user shows a GENUINE stuck/frustrated/confused moment, does the coach make a
+  responsive change that is actually tailored to that moment? Evaluate the COACH's (AI:)
+  turns only. These are speech-to-text transcripts, so expect disfluencies and
+  split/merged turns. Judge the WHOLE session. Most sessions have no genuine signal and
+  the correct verdict is N/A — but when a genuine signal does occur, hold the coach to a
+  real, tailored response, not the stock script.
+
+pass: >
+  There is at least one GENUINE signal in the session AND the coach responds to EVERY
+  genuine signal with a change actually tailored to it — acknowledging the frustration,
+  reassuring / slowing down ("Take your time"), genuinely rephrasing or simplifying the
+  question, or a redirect that speaks to the moment.
+
+  A GENUINE signal is any of:
+    - frustration / agitation, incl. profanity aimed at the situation ("Fuck this"), or
+      escalating agitation;
+    - explicit inability to proceed — can't produce an answer ("I don't know what to
+      say", "I don't really have an answer", "oh, man...");
+    - explicit inability to find words ("I can't find the right words", "lost for words");
+    - a SUSTAINED disengagement / deflection pattern — repeated flippant non-answers or
+      deflections across turns (e.g. "I just like money" / "the police is a challenge" /
+      random "Hello?"), not a single terse answer.
+
+  What does NOT count as an adaptation (these are the script, not a tailored response):
+  the standard per-question feedback template; the retry-offer ("Would you like to try
+  again or move on?"); and the stock line "I'm here to help you practice, let's focus on
+  that for now" — especially when repeated. A genuine signal met ONLY with these has been
+  ignored, not adapted to.
+
+fail: >
+  Scan the whole call. If ANY genuine signal is met only with the scripted template, the
+  retry-offer, or the same canned line (the non-adaptations listed under PASS) — i.e. the
+  coach proceeds as if the frustration/stuck/disengagement were not there — the call
+  FAILS, even if the coach handled some other moment well. One ignored genuine signal is
+  enough; do not pass on the strength of a single good moment elsewhere.
+
+na: >
+  No GENUINE signal occurs anywhere — nothing to adapt to. This is the correct,
+  most-common verdict. The following are NOT signals, and a call whose only "moments" are
+  these is N/A:
+    - a single routine clarification: "repeat the question", "what was that? sorry";
+    - a brief pause: "hold on", "one second";
+    - a single off-topic remark / story the user isn't distressed about;
+    - being finished / nothing to add: "that's it", "next question";
+    - simply terse, short, or low-effort answers from a user who is otherwise cooperative
+      and on-track;
+    - garbled or incoherent speech ALONE ("Person.", "Undistributed") with no explicit
+      stuck/frustrated/confused statement and no deflection pattern — do NOT infer a
+      signal from messy transcription.
+  Do NOT invent a stuck moment. If there is no genuine signal, return N/A.

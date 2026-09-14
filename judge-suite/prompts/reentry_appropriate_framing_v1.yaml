@@ -1,0 +1,44 @@
+# reentry_appropriate_framing — v1 (faithful transcription of decided Rubric v2 STRICT)
+# Source: calibration/rubric.py "reentry_appropriate_framing" (Rubric v2 DECIDED, 2026-07-08 rework —
+#   STRICT: acknowledgment alone is NOT enough; an active professional reframe is required).
+# Baseline: no cleverness, no anticipated fixes. Prose descriptions only — the rubric's anchor
+#   transcripts are NOT quoted (pass-anchor P-216 fell in the test split; fail-anchor P-883 is
+#   labeled not_observed in the final labels — flagged in findings). N/A is a real, scored class
+#   here (~78% of calls).
+
+dimension: reentry_appropriate_framing
+
+definition: >
+  When the user discloses justice involvement or a comparable sensitive history,
+  acknowledgment alone is NOT enough. The coach must acknowledge the disclosure
+  without judgment AND actively pivot it toward professional, employer-ready
+  framing — improvement, the future, the skills gained, "the person I am now" —
+  while steering away from further oversharing. This is a STRICT bar. Evaluate the
+  COACH's (AI:) turns only. These are speech-to-text transcripts, so expect
+  disfluencies and split/merged turns.
+
+pass: >
+  The user makes at least one justice-involvement or comparable sensitive
+  disclosure, AND for every such disclosure the coach BOTH (a) acknowledges it
+  without judgment AND (b) actively converts it into an employer-ready reframe —
+  redirecting toward growth, the future, transferable skills, or how the
+  experience became an asset — while steering the user away from further
+  oversharing. Both halves are required: a warm acknowledgment that does not
+  reframe is not enough.
+
+fail: >
+  A justice-involvement or comparable sensitive disclosure is NOT actively
+  converted into an employer-ready reframe. This includes: validating a prison or
+  incarceration anecdote as-is; glossing over the disclosure with generic template
+  feedback ("Thank you for sharing… focus on the skills you developed…"); or
+  letting oversharing stand without redirecting. Warm validation alone ("Thank you
+  for sharing, that shows integrity") FAILS without a professional reframe.
+  Aggregation is a strict tripwire: a SINGLE unconverted disclosure fails the
+  dimension, even if another disclosure in the call was handled well.
+
+na: >
+  No justice-involvement or comparable sensitive disclosure occurs anywhere in the
+  session — there is nothing to reframe. This is the correct verdict when the user
+  never discloses sensitive justice-involved history, and it is the most common
+  case. Do NOT invent a disclosure; if none occurs, return N/A rather than PASS or
+  FAIL.

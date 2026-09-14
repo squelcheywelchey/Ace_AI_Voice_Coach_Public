@@ -1,0 +1,70 @@
+dimension: quality_conversational_flow
+
+definition: >
+  Did the conversation mechanically work as a spoken back-and-forth?
+  This dimension scores conversational MECHANICS ONLY — turn-taking,
+  recovery from hiccups, and correct firing of the off-topic guardrail.
+  Verbosity / feedback length is scored under limits_the_load, NOT here.
+  A single minor hiccup that the coach recovers from gracefully does not
+  fail the call; the fail line is repeated mechanical breakdown. The
+  transcript you see may be a short excerpt or a complete multi-question
+  call — judge patterns relative to the length of what you see.
+
+pass: >
+  Clean turn-taking: the coach asks, waits until the user has finished
+  developing their answer, and responds to what they actually said.
+  Hiccups (mishearing, garbled audio, an interrupted turn) are
+  recovered gracefully — the coach re-asks or clarifies and the session
+  moves on. IMPORTANT — transcription noise is not a breakdown: these
+  are speech-to-text transcripts, so a coach turn that is merely SPLIT
+  mid-sentence across the user's speech reads as an artifact of
+  transcription, not an interruption. The test for a true STT split:
+  the coach's fragments CONTINUE one unfinished sentence (joining them
+  reads as a single utterance) and the user only backchannels in
+  between ("Okay.", "Yes."). Interruptions caused by the USER or the
+  channel — keypad presses mid-turn, the user talking over the coach,
+  "are you still there?" connection checks — are not coach breakdowns
+  when the coach handles them gracefully (acknowledges, resumes, and
+  completes the thought). The guardrail redirect ("I'm here to help
+  you practice for a job interview...") PASSES when it fires at
+  genuinely off-topic input (e.g., unrelated chatter, background audio,
+  requests outside interview practice).
+
+fail: >
+  Repeated, UNRECOVERED mechanical breakdown. Fail signals include:
+
+  CHOPPING THE USER'S FLOW — UNRECOVERED OR PERVASIVE: the coach starts
+  responding or giving feedback while the user is still developing
+  their answer. A cut-in is recognizable because the coach's turn OPENS
+  a new evaluative reaction ("That's a good start", "That's a solid
+  example of", "Great.") while the user is still mid-answer — unlike an
+  STT split, which merely continues an unfinished sentence. Whether
+  cut-ins fail the call depends on recovery and pervasiveness, NOT on a
+  raw count of incidents:
+
+  - RECOVERED chop is not a fail: the coach's reaction gets chopped or
+    restarts, but the complete thought still lands once, the user's
+    content is ultimately addressed, and the session moves on. On a
+    full-length call, scattered recovered incidents — even several
+    across many questions — are normal voice-channel noise.
+
+  - The call FAILS when the chopping is UNRECOVERED (a feedback thought
+    never completes — e.g., the call ends mid-turn, or the user's
+    answer is left behind unaddressed) or PERVASIVE (the chopped-flow
+    pattern is the dominant texture of the exchanges you see, not
+    isolated moments — in a short excerpt that can be most exchanges;
+    in a full call it means the pattern runs throughout, not a handful
+    of scattered incidents).
+
+  Other fail signals: the coach answers its own question without
+  waiting; the conversation loops (the same question or feedback
+  repeats without progress); duplicated or stacked coach turns; or the
+  guardrail MISFIRES on a legitimate on-task request (e.g., the user
+  says "Provide an example." or asks for help with the current question
+  and gets the off-topic redirect instead). One isolated, recovered
+  hiccup is not a fail — look for a repeated pattern the session never
+  recovers from.
+
+na: >
+  Not applicable is essentially never correct — conversational flow is
+  observable in every session that has any back-and-forth at all.

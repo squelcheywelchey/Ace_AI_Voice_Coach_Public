@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Label Transcript</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f5f5f5; padding: 20px; }
+        .header { max-width: 1400px; margin: 0 auto 20px; padding: 0 20px; }
+        .header h1 { font-size: 24px; margin-bottom: 8px; }
+        .header p { color: #666; }
+        .container { max-width: 1400px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .panel { background: white; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); padding: 24px; overflow-y: auto; max-height: calc(100vh - 140px); }
+        .panel h2 { font-size: 16px; font-weight: 600; margin-bottom: 16px; color: #333; text-transform: uppercase; letter-spacing: 0.5px; }
+        .transcript { font-size: 14px; line-height: 1.7; color: #333; }
+        .transcript-turn { margin-bottom: 16px; padding: 12px; border-radius: 6px; }
+        .transcript-turn.ai { background: #e8f5e9; border-left: 3px solid #4caf50; }
+        .transcript-turn.user { background: #e3f2fd; border-left: 3px solid #2196f3; }
+        .transcript-speaker { font-weight: 700; font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
+        .transcript-turn.ai .transcript-speaker { color: #2e7d32; }
+        .transcript-turn.user .transcript-speaker { color: #1565c0; }
+        .transcript-text { font-size: 14px; line-height: 1.6; }
+        .rubric { font-size: 14px; line-height: 1.7; color: #333; }
+        .rubric h3 { font-size: 15px; font-weight: 600; margin: 20px 0 10px 0; color: #222; }
+        .rubric ul { margin-left: 20px; margin-bottom: 15px; }
+        .rubric li { margin-bottom: 8px; }
+        .rubric p { margin-bottom: 12px; }
+        .form-section { position: sticky; bottom: 0; background: white; padding-top: 20px; border-top: 1px solid #eee; }
+        .form-group { margin-bottom: 16px; }
+        .form-group label { display: block; font-weight: 600; margin-bottom: 8px; font-size: 14px; }
+        .buttons { display: flex; gap: 12px; margin-bottom: 16px; }
+        .btn { padding: 12px 24px; font-size: 14px; border: 2px solid #ddd; border-radius: 6px; cursor: pointer; font-weight: 600; transition: all 0.2s; background: white; }
+        .btn:hover { border-color: #999; }
+        .btn.selected { border-color: #333; background: #333; color: white; }
+        .btn-pass { color: #059669; }
+        .btn-pass.selected { background: #059669; color: white; border-color: #059669; }
+        .btn-fail { color: #dc2626; }
+        .btn-fail.selected { background: #dc2626; color: white; border-color: #dc2626; }
+        textarea { width: 100%; padding: 12px; font-family: inherit; font-size: 14px; border: 1px solid #ddd; border-radius: 6px; resize: vertical; }
+        .submit-btn { width: 100%; padding: 12px; background: #3b82f6; color: white; border: none; border-radius: 6px; font-weight: 600; cursor: pointer; font-size: 14px; }
+        .submit-btn:hover { background: #2563eb; }
+        .submit-btn:disabled { background: #999; cursor: not-allowed; }
+        .error { color: #dc2626; font-size: 13px; margin-top: 4px; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Case {{ current }} of {{ total }} — source_row_{{ case.source_row }}</h1>
+        <p>Labeling as: <strong>{{ labeler.capitalize() }}</strong></p>
+    </div>
+
+    <div class="container">
+        <!-- Left side: Transcript -->
+        <div class="panel">
+            <h2>Transcript</h2>
+            <div class="transcript">
+                {% for turn in turns %}
+                    <div class="transcript-turn {{ turn.speaker | lower }}">
+                        <div class="transcript-speaker">{{ 'AI Coach' if turn.speaker == 'AI' else 'You' }}</div>
+                        <div class="transcript-text">{{ turn.text }}</div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Right side: Rubric & Form -->
+        <div class="panel">
+            <h2>Rubric & Label</h2>
+            <div class="rubric">
+                <h3>What We're Evaluating</h3>
+                <p>Whether the coach's per-question feedback is <strong>egregiously bad</strong>. This is a LOW BAR — the coach passes unless the feedback shows they did not accurately process what the participant said.</p>
+
+                <h3>Passing means:</h3>
+                <ul>
+                    <li>Generic but sound advice passes</li>
+                    <li>Ordinary encouragement of a mediocre answer passes</li>
+                    <li>The coach's feedback accurately reflects what the participant actually said</li>
+                </ul>
+
+                <h3>What Makes Feedback Disconnected (Failing)</h3>
+                <p>A feedback turn <strong>fails</strong> if ANY of these are true:</p>
+                <ul>
+                    <li><strong>Fake quality claims</strong> — Coach praises a specific quality (great detail, strong example) that the answer doesn't actually show</li>
+                    <li><strong>Validating empty responses</strong> — Coach gives substantive praise to an answer with no real content, even if they later ask for elaboration</li>
+                    <li><strong>Validating nonsense</strong> — Coach treats a nonsensical, incoherent, or garbled response as good</li>
+                    <li><strong>Advice mismatch</strong> — Coach gives advice that doesn't match the question that was asked</li>
+                    <li><strong>Delivering the answer</strong> — Coach answers the question for the participant instead of responding to what they said</li>
+                    <li><strong>Treating repeats as new</strong> — Coach responds to a repeated answer as if it's new information</li>
+                    <li><strong>Off-topic redirect</strong> — Coach redirects a legitimate, on-topic response to something else</li>
+                    <li><strong>Wrong or harmful advice</strong> — Coach gives factually wrong or harmful interview advice</li>
+                </ul>
+
+                <h3>The Rule</h3>
+                <p>A single disconnected turn anywhere in the session is enough to <strong>fail</strong>. Otherwise, <strong>pass</strong>.</p>
+            </div>
+
+            <div class="form-section">
+                <form id="labelForm">
+                    <div class="form-group">
+                        <label>Your Label</label>
+                        <div class="buttons">
+                            <button type="button" class="btn btn-pass" id="passBtn">✓ Pass</button>
+                            <button type="button" class="btn btn-fail" id="failBtn">✗ Fail</button>
+                        </div>
+                        <div class="error" id="labelError"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="reasoning">Why? (optional reasoning)</label>
+                        <textarea id="reasoning" rows="3" placeholder="Explain your label choice..."></textarea>
+                    </div>
+
+                    <button type="submit" class="submit-btn">Save & Next</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let selectedLabel = null;
+        const passBtn = document.getElementById('passBtn');
+        const failBtn = document.getElementById('failBtn');
+        const reasoningField = document.getElementById('reasoning');
+        const labelError = document.getElementById('labelError');
+
+        passBtn.addEventListener('click', () => {
+            selectedLabel = 'pass';
+            passBtn.classList.add('selected');
+            failBtn.classList.remove('selected');
+            labelError.textContent = '';
+        });
+
+        failBtn.addEventListener('click', () => {
+            selectedLabel = 'fail';
+            failBtn.classList.add('selected');
+            passBtn.classList.remove('selected');
+            labelError.textContent = '';
+        });
+
+        document.getElementById('labelForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            if (!selectedLabel) {
+                labelError.textContent = 'Please select Pass or Fail';
+                return;
+            }
+
+            const response = await fetch('/api/save', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    source_row: {{ case.source_row }},
+                    labeler: '{{ labeler }}',
+                    label: selectedLabel,
+                    reasoning: reasoningField.value
+                })
+            });
+
+            if (response.ok) {
+                location.reload();
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,33 @@
+dimension: drives_practice_uptake
+
+definition: >
+  Did the coach drive a practice cycle that the participant actually took up —
+  i.e. at least once, the participant produced a SECOND ATTEMPT at an answer,
+  in their own words, after the coach's feedback or re-ask? These are
+  speech-to-text transcripts of voice calls; judge the substance of what the
+  participant said, not transcription artifacts.
+
+pass: >
+  PASS requires at least one genuine uptake on-record: after the coach gives
+  feedback or re-asks a question, the PARTICIPANT delivers a second attempt at
+  that answer IN THEIR OWN WORDS (a re-do or a real expansion that adds new
+  content they generate themselves). One such genuine second attempt anywhere
+  in the session is enough.
+
+fail: >
+  FAIL when no genuine participant second attempt ever occurs. In particular,
+  the following do NOT count as uptake, and a session containing only these is
+  a FAIL:
+    - The participant asks the COACH to repeat, restate, or answer for them
+      ("say it again", "repeat that", "answer it again", "try to answer the
+      question again") — that is the coach re-attempting, not the participant.
+    - The coach reads out a model/example answer and the participant does not
+      then produce their own attempt (a bare "more" or "okay" that only
+      triggers the coach's example is not uptake).
+    - The participant agrees ("yes") but then immediately declines or moves on
+      without actually attempting again.
+    - The participant declines every offer ("next question", "move on").
+
+na: >
+  The call was too short to observe any feedback/retry cycle, or the session
+  ended (or broke down at ID/consent) before any retry could be offered.

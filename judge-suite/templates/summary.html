@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Labeling Complete</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f5f5f5; }
+        .container { max-width: 800px; margin: 60px auto; padding: 40px; background: white; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        h1 { margin-bottom: 30px; color: #333; }
+        .message { background: #d1fae5; border-left: 4px solid #10b981; padding: 20px; margin-bottom: 30px; border-radius: 6px; }
+        .message p { color: #065f46; font-weight: 500; }
+        table { width: 100%; border-collapse: collapse; margin-bottom: 30px; }
+        th, td { padding: 12px 16px; text-align: left; border-bottom: 1px solid #e5e7eb; }
+        th { background: #f3f4f6; font-weight: 600; }
+        tr:hover { background: #f9fafb; }
+        .pass { color: #059669; font-weight: 500; }
+        .fail { color: #dc2626; font-weight: 500; }
+        .reasoning { font-size: 13px; color: #666; margin-top: 4px; }
+        .button { display: inline-block; padding: 12px 24px; background: #3b82f6; color: white; text-decoration: none; border-radius: 6px; font-weight: 600; cursor: pointer; border: none; }
+        .button:hover { background: #2563eb; }
+        .button-group { text-align: center; margin-top: 30px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>✓ Labeling Complete</h1>
+        <div class="message">
+            <p>Great job, {{ labeler.capitalize() }}! You've labeled all 10 cases.</p>
+        </div>
+
+        <h2>Your Labels</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Case</th>
+                    <th>Label</th>
+                    <th>Reasoning</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for case in test_set %}
+                    {% set key = (case.source_row, labeler) %}
+                    {% if key in results %}
+                        <tr>
+                            <td>source_row_{{ case.source_row }}</td>
+                            <td class="{% if results[key].label == 'pass' %}pass{% else %}fail{% endif %}">
+                                {% if results[key].label == 'pass' %}✓ Pass{% else %}✗ Fail{% endif %}
+                            </td>
+                            <td>
+                                {% if results[key].reasoning %}
+                                    <div class="reasoning">{{ results[key].reasoning }}</div>
+                                {% else %}
+                                    <div class="reasoning" style="color: #999;">—</div>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endif %}
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <div class="button-group">
+            <a href="/" class="button">← Back to Labeler Selection</a>
+        </div>
+
+        <p style="text-align: center; color: #999; margin-top: 30px; font-size: 13px;">
+            Results have been saved to <code>labeling_results.csv</code>
+        </p>
+    </div>
+</body>
+</html>

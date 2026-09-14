@@ -1,0 +1,8 @@
+[build]
+builder = "nixpacks"
+
+[build.nixpacks]
+python = "3.12"
+
+[start]
+cmd = "python labeling_app.py"

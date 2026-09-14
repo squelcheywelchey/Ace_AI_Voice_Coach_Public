@@ -1,0 +1,17 @@
+source_row,ceo_id,dimension
+9001,SYN-dialogue-01,makes_it_a_dialogue
+9002,SYN-dialogue-02,makes_it_a_dialogue
+9003,SYN-dialogue-03,makes_it_a_dialogue
+9101,SYN-nodial-01,makes_it_a_dialogue
+9102,SYN-nodial-02,makes_it_a_dialogue
+9103,SYN-nodial-03,makes_it_a_dialogue
+9005,SYN-tricky-01,makes_it_a_dialogue
+9006,SYN-tricky-02,makes_it_a_dialogue
+9007,SYN-tricky-03,makes_it_a_dialogue
+9008,SYN-tricky-04,makes_it_a_dialogue
+9009,SYN-tricky-05,makes_it_a_dialogue
+9105,SYN-trickyneg-01,makes_it_a_dialogue
+9106,SYN-trickyneg-02,makes_it_a_dialogue
+9107,SYN-trickyneg-03,makes_it_a_dialogue
+9108,SYN-trickyneg-04,makes_it_a_dialogue
+9109,SYN-trickyneg-05,makes_it_a_dialogue
