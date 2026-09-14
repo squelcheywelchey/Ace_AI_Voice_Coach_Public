@@ -1,0 +1,212 @@
+{% extends "base.html" %}
+{% block title %}Admin · Coach Labeling{% endblock %}
+{% block content %}
+<div class="page-head">
+  <h1>Admin</h1>
+  <div class="exports">
+    <a class="btn" href="{{ url_for('export_csv') }}">⬇ Download CSV</a>
+    <a class="btn" href="{{ url_for('export_xlsx') }}">⬇ Download XLSX</a>
+  </div>
+</div>
+
+<!-- Progress -->
+<section class="card">
+  <h2>Labeler progress</h2>
+  {% if not labelers %}
+    <p class="muted">No labelers yet — add one below.</p>
+  {% else %}
+  <table class="list">
+    <thead><tr><th>Labeler</th><th>Passcode</th><th>Magic link</th><th>Progress</th><th></th></tr></thead>
+    <tbody>
+      {% for l in labelers %}
+      {% set p = progress[l['id']] %}
+      <tr>
+        <td>{{ l['name'] }}</td>
+        <td><code>{{ l['passcode'] }}</code></td>
+        <td><code class="link">{{ base_url }}/l/{{ l['passcode'] }}</code></td>
+        <td>
+          <div class="progress small">
+            <div class="progress-bar"><span style="width: {{ (p['done'] / p['total'] * 100) if p['total'] else 0 }}%"></span></div>
+            <span class="muted">{{ p['done'] }} done · {{ p['in_progress'] }} in progress · {{ p['total'] }} total</span>
+          </div>
+        </td>
+        <td>
+          <form method="post" action="{{ url_for('admin_delete_labeler') }}"
+            onsubmit="return confirm('Remove {{ l['name'] }} and any of their assignments/scores? This cannot be undone.');">
+            <input type="hidden" name="labeler_id" value="{{ l['id'] }}">
+            <button type="submit" class="btn danger sm">Remove</button>
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% endif %}
+
+  <form method="post" action="{{ url_for('admin_add_labeler') }}" class="inline-form">
+    <input type="text" name="name" placeholder="New labeler name" required>
+    <button class="btn primary" type="submit">Add labeler</button>
+  </form>
+</section>
+
+<!-- Load a calibration round (upload assignments .xlsx) -->
+<section class="card">
+  <h2>Load a calibration round</h2>
+  <p class="muted">Upload an assignments spreadsheet (columns: <strong>row_idx · ceo_id · excerpt · grader_name</strong>). Creates an account per grader, one transcript per ceo_id, and the assignments. Additive and safe to re-run.</p>
+  <form method="post" action="{{ url_for('admin_load_calibration') }}" enctype="multipart/form-data" class="inline-form">
+    <input type="file" name="calfile" accept=".xlsx" required>
+    <button class="btn primary" type="submit">Upload &amp; load</button>
+  </form>
+  <form method="post" action="{{ url_for('admin_reset') }}" class="inline-form" onsubmit="return resetConfirm(this);">
+    <input type="hidden" name="confirm">
+    <button type="submit" class="btn danger sm">Reset all data</button>
+    <span class="muted">deletes ALL graders, transcripts &amp; scores — for a clean re-load</span>
+  </form>
+  <script>
+    function resetConfirm(form) {
+      if (prompt('This permanently deletes ALL graders, transcripts, and scores.\\nType RESET to confirm:') === 'RESET') {
+        form.confirm.value = 'RESET'; return true;
+      }
+      return false;
+    }
+  </script>
+</section>
+
+<!-- Import from a server-side TSV (local use) -->
+<section class="card">
+  <h2>Import transcripts <span class="muted">(from a server TSV)</span></h2>
+  <p class="muted">{{ n_items }} transcript(s) currently in the pool.</p>
+  {% if tsv_files %}
+  <form method="post" action="{{ url_for('admin_import') }}" class="inline-form">
+    <select name="source_file" required>
+      <option value="" disabled selected>Choose a TSV…</option>
+      {% for f in tsv_files %}<option value="{{ f }}">{{ f }}</option>{% endfor %}
+    </select>
+    <select name="mode">
+      <option value="first">First N rows</option>
+      <option value="random">Random N rows</option>
+      <option value="rows">Specific rows (comma-separated)</option>
+    </select>
+    <input type="text" name="value" placeholder="e.g. 25  or  2,5,9" value="25">
+    <button class="btn primary" type="submit">Import</button>
+  </form>
+  {% else %}
+  <p class="muted">No TSVs on the server — use the calibration upload above.</p>
+  {% endif %}
+</section>
+
+<!-- Assignments list (filterable: CEO ID · Annotator · Transcript) -->
+<section class="card">
+  <h2>Assignments <span class="muted">({{ assignments|length }})</span></h2>
+  {% if not assignments %}
+    <p class="muted">Nothing assigned yet — assign transcripts below.</p>
+  {% else %}
+  <div class="filterbar">
+    <label>Filter by annotator
+      <select id="annotatorFilter">
+        <option value="">All annotators</option>
+        {% for l in labelers %}<option value="{{ l['name'] }}">{{ l['name'] }}</option>{% endfor %}
+      </select>
+    </label>
+    <span class="muted" id="filterCount"></span>
+  </div>
+  <table class="list" id="assignTable">
+    <thead><tr><th>CEO ID</th><th>Annotator</th><th>Status</th><th>Transcript</th></tr></thead>
+    <tbody>
+      {% for a in assignments %}
+      <tr data-annotator="{{ a['labeler_name'] }}">
+        <td>{{ a['ceo_id'] or '—' }}</td>
+        <td>{{ a['labeler_name'] }}</td>
+        <td><span class="badge {{ a['status'] }}">{{ a['status'].replace('_', ' ') }}</span></td>
+        <td><a class="btn" href="{{ url_for('item', assignment_id=a['id']) }}">Open transcript →</a></td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% endif %}
+</section>
+
+<!-- Assign & delete transcripts -->
+<section class="card">
+  <h2>Assign &amp; manage transcripts</h2>
+  {% if not items %}
+    <p class="muted">No transcripts yet — import some above.</p>
+  {% elif not labelers %}
+    <p class="muted">Add an annotator above, then assign transcripts here.</p>
+  {% else %}
+  <form method="post" action="{{ url_for('admin_assign') }}">
+    <div class="assign-controls">
+      <select name="labeler_id">
+        <option value="" disabled selected>Assign to…</option>
+        {% for l in labelers %}<option value="{{ l['id'] }}">{{ l['name'] }}</option>{% endfor %}
+      </select>
+      <button class="btn primary" type="submit">Assign checked</button>
+      <button class="btn danger" type="submit" formaction="{{ url_for('admin_delete_items') }}"
+        onclick="return confirm('Delete the checked transcripts and any scores on them? This cannot be undone.');">Delete checked</button>
+    </div>
+    <div class="filterbar">
+      <label>Show transcripts
+        <select id="assignFilter">
+          <option value="">All</option>
+          <option value="__unassigned__">Unassigned only</option>
+          {% for l in labelers %}<option value="{{ l['name'] }}">Assigned to {{ l['name'] }}</option>{% endfor %}
+        </select>
+      </label>
+      <label class="checkall"><input type="checkbox" id="checkall"> select all shown</label>
+      <span class="muted" id="assignCount"></span>
+    </div>
+    <table class="list">
+      <thead><tr><th></th><th>CEO ID</th><th>Currently assigned to</th></tr></thead>
+      <tbody>
+        {% for i in items %}
+        <tr class="assignrow" data-assigned="{{ assigned_names.get(i['id'], []) | join('|') }}">
+          <td><input type="checkbox" name="item_ids" value="{{ i['id'] }}" class="rowcheck"></td>
+          <td>{{ i['ceo_id'] or '—' }}</td>
+          <td class="muted">{{ assigned_names.get(i['id'], []) | join(', ') or '—' }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </form>
+  {% endif %}
+</section>
+
+<script>
+  // Filter the Assignments list by annotator
+  var af = document.getElementById('annotatorFilter');
+  if (af) af.addEventListener('change', function (e) {
+    var v = e.target.value, shown = 0;
+    document.querySelectorAll('#assignTable tbody tr').forEach(function (tr) {
+      var match = !v || tr.dataset.annotator === v;
+      tr.style.display = match ? '' : 'none';
+      if (match) shown++;
+    });
+    document.getElementById('filterCount').textContent = v ? (shown + ' for ' + v) : '';
+  });
+  // Filter the assign table by annotator (or unassigned), then bulk-select
+  var afm = document.getElementById('assignFilter');
+  function applyAssignFilter() {
+    var v = afm.value, shown = 0;
+    document.querySelectorAll('.assignrow').forEach(function (tr) {
+      var names = (tr.dataset.assigned || '').split('|').filter(Boolean);
+      var match = !v ? true : (v === '__unassigned__' ? names.length === 0 : names.indexOf(v) >= 0);
+      tr.style.display = match ? '' : 'none';
+      if (match) { shown++; } else { var cb = tr.querySelector('.rowcheck'); if (cb) cb.checked = false; }
+    });
+    var lbl = !v ? '' : (v === '__unassigned__' ? 'unassigned' : v);
+    document.getElementById('assignCount').textContent = lbl ? (shown + ' ' + lbl) : '';
+    var ca = document.getElementById('checkall'); if (ca) ca.checked = false;
+  }
+  if (afm) afm.addEventListener('change', applyAssignFilter);
+
+  // "Select all shown" — only the rows currently visible after filtering
+  var ca = document.getElementById('checkall');
+  if (ca) ca.addEventListener('change', function (e) {
+    document.querySelectorAll('.assignrow').forEach(function (tr) {
+      if (tr.style.display !== 'none') {
+        var cb = tr.querySelector('.rowcheck'); if (cb) cb.checked = e.target.checked;
+      }
+    });
+  });
+</script>
+{% endblock %}

@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+{% block title %}Score call · Live-Call Labeling{% endblock %}
+{% block main_class %}split{% endblock %}
+{% block content %}
+<div class="split-head">
+  <a class="back" href="{{ url_for('index') }}">← My calls</a>
+  <span class="meta">CEO ID {{ a['ceo_id'] or '—' }} · {{ (a['started_at'] or '')[:10] }} · {{ a['duration_sec'] | dur_min }}</span>
+  <span class="badge {{ a['status'] }}">{{ a['status'].replace('_', ' ') }}</span>
+</div>
+
+<form method="post" action="{{ url_for('save_item', assignment_id=a['id']) }}" id="scoreform">
+<div class="split-body">
+  <section class="transcript-pane">
+    <h2>Transcript</h2>
+    <div class="transcript">
+      {% for t in turns %}
+      <div class="turn {{ 'ai' if t['speaker'] == 'AI' else 'user' }}">
+        <span class="speaker">{{ 'Coach' if t['speaker'] == 'AI' else 'Participant' }}</span>
+        <p>{{ t['text'] }}</p>
+      </div>
+      {% endfor %}
+    </div>
+  </section>
+
+  <section class="rubric-pane">
+    <h2>Score your dimensions ({{ dim_range }}) <span class="muted">— Pass / Fail / Not Observed</span></h2>
+
+    {% for section_name, dims in grouped %}
+    <div class="section-group">
+      <h3 class="section-title">{{ section_name }}</h3>
+      {% for num, c in dims %}
+      <div class="criterion">
+        <div class="crit-head"><span class="dim-num">{{ num }}</span> <strong>{{ c['name'] }}</strong></div>
+        <p class="def-line"><span class="tag good">Pass</span> {{ c['definition'] }}</p>
+        {% if c['watch_for'] %}<p class="def-line"><span class="tag bad">Fail if</span> {{ c['watch_for'] }}</p>{% endif %}
+        {% if c['not_observed'] %}<p class="def-line"><span class="tag no">N/O when</span> {{ c['not_observed'] }}</p>{% endif %}
+        {% if c['pass_example'] or c['fail_example'] %}
+        <details class="anchors">
+          <summary>Worked examples (v2)</summary>
+          {% if c['pass_example'] %}<div class="ex pass"><span class="good">Pass example</span><pre>{{ c['pass_example'] }}</pre></div>{% endif %}
+          {% if c['fail_example'] %}<div class="ex fail"><span class="bad">Fail example</span><pre>{{ c['fail_example'] }}</pre></div>{% endif %}
+        </details>
+        {% endif %}
+
+        <div class="scale">
+          {% for choice in score_choices %}
+          <label class="opt {{ choice }}">
+            <input type="radio" name="score_{{ c['id'] }}" value="{{ choice }}"
+              {{ 'checked' if saved_scores.get(c['id']) == choice }}>
+            <span>{{ score_labels[choice] }}</span>
+          </label>
+          {% endfor %}
+        </div>
+        <input class="note" type="text" name="note_{{ c['id'] }}"
+          placeholder="Optional note / quote" value="{{ saved_notes.get(c['id'], '') }}">
+        <label class="flag-check">
+          <input type="checkbox" name="flag_{{ c['id'] }}" value="1"
+            {{ 'checked' if c['id'] in saved_flags }}>
+          🚩 Flag for discussion <span class="muted">— not cut-and-dry; talk through together</span>
+        </label>
+      </div>
+      {% endfor %}
+    </div>
+    {% endfor %}
+
+    <div class="criterion overall">
+      <div class="crit-head"><strong>Overall impression</strong> <span class="muted">— both labelers answer</span></div>
+      <p class="def-line">Would you recommend the AI coach you saw in this transcript to your participant?</p>
+      <div class="scale">
+        <label class="opt pass"><input type="radio" name="would_recommend" value="pass"
+          {{ 'checked' if a['would_recommend'] == 'pass' }}><span>Pass</span></label>
+        <label class="opt fail"><input type="radio" name="would_recommend" value="fail"
+          {{ 'checked' if a['would_recommend'] == 'fail' }}><span>Fail</span></label>
+      </div>
+      <textarea name="overall_notes" rows="3" placeholder="Anything else about this call (optional)">{{ a['overall_notes'] or '' }}</textarea>
+      <label class="flag-check">
+        <input type="checkbox" name="flag_overall" value="1"
+          {{ 'checked' if 'overall' in saved_flags }}>
+        🚩 Flag for discussion <span class="muted">— not cut-and-dry; talk through together</span>
+      </label>
+    </div>
+
+    <div class="actions">
+      <button type="submit" name="action" value="save" class="btn">Save draft</button>
+      <button type="submit" name="action" value="submit" class="btn primary">Submit</button>
+    </div>
+  </section>
+</div>
+</form>
+
+<script>
+(function () {
+  // Enter in a note field must not submit the form
+  document.getElementById('scoreform').addEventListener('keydown', function (e) {
+    if (e.key === 'Enter' && e.target.tagName === 'INPUT' && e.target.type !== 'submit') {
+      e.preventDefault();
+    }
+  });
+})();
+</script>
+{% endblock %}

@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}Log in · Coach Labeling{% endblock %}
+{% block content %}
+<div class="login-card">
+  <span class="ceo-logo lg">ceo</span>
+  <h1>Voice Coach Labeling</h1>
+  <p class="org">Center for Employment Opportunities</p>
+  <p class="muted">Enter the private passcode you were given to see the transcripts assigned to you.</p>
+  <form method="post" action="{{ url_for('login') }}">
+    <input type="hidden" name="next" value="{{ next }}">
+    <label>Passcode
+      <input type="text" name="passcode" autofocus autocomplete="off" placeholder="e.g. maya-7f3a9c" required>
+    </label>
+    <button type="submit" class="btn primary">Log in</button>
+  </form>
+</div>
+{% endblock %}

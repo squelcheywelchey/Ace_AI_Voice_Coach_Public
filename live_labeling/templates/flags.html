@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+{% block title %}Flagged for discussion · Live-Call Labeling{% endblock %}
+{% block content %}
+<h1>🚩 Flagged for discussion <span class="muted">— {{ n_flags }} flag{{ '' if n_flags == 1 else 's' }}</span></h1>
+<p class="muted" style="max-width: 760px; margin: .4rem 0 1.2rem;">
+  Every dimension either of you flagged as not cut-and-dry, grouped by call — work
+  through this list together. Both of you can settle any flag right here: pick the
+  verdict, note the reasoning, and <b>Save &amp; resolve</b>. It writes to whoever's
+  scorecard the flag belongs to, so no switching logins.
+</p>
+
+{% if not items %}
+<div class="card empty">Nothing flagged yet. On a scoring page, tick
+  “🚩 Flag for discussion” under any dimension you're unsure about, then save.</div>
+{% endif %}
+
+{% for it in items %}
+<div class="card" id="item-{{ it['item_id'] }}">
+  <h2>CEO ID {{ it['ceo_id'] or '—' }}
+    <span class="muted">— {{ it['entries'] | length }} flag{{ '' if it['entries'] | length == 1 else 's' }}</span></h2>
+
+  <details class="flag-transcript">
+    <summary>Transcript <span class="muted">({{ it['turns'] | length }} turns)</span></summary>
+    <div class="transcript">
+      {% for t in it['turns'] %}
+      <div class="turn {{ 'ai' if t['speaker'] == 'AI' else 'user' }}">
+        <span class="speaker">{{ 'Coach' if t['speaker'] == 'AI' else 'Participant' }}</span>
+        <p>{{ t['text'] }}</p>
+      </div>
+      {% endfor %}
+    </div>
+  </details>
+
+  {% for e in it['entries'] %}
+  <div class="flag-entry">
+    <div class="crit-head">
+      <strong>{{ e['dim_name'] }}</strong>
+      <span class="flag-owner">🚩 {{ e['owner'] }}'s</span>
+      {% if e['score'] %}<span class="plabel {{ e['score'] }}">{{ e['score'].replace('_', ' ') | capitalize }}</span>
+      {% else %}<span class="muted" style="font-size:.8rem;">unscored</span>{% endif %}
+      {% if e['mine'] %}
+      <a class="btn sm" style="margin-left:auto;" href="{{ url_for('item', assignment_id=e['assignment_id']) }}">Open full call</a>
+      {% endif %}
+    </div>
+
+    {% if e['crit'] %}
+    <p class="def-line"><span class="tag good">Pass</span> {{ e['crit']['definition'] }}</p>
+    {% if e['crit']['watch_for'] %}<p class="def-line"><span class="tag bad">Fail if</span> {{ e['crit']['watch_for'] }}</p>{% endif %}
+    {% if e['crit']['not_observed'] %}<p class="def-line"><span class="tag no">N/O when</span> {{ e['crit']['not_observed'] }}</p>{% endif %}
+    {% else %}
+    <p class="def-line">Would you recommend the AI coach you saw in this transcript to your participant?</p>
+    {% endif %}
+
+    <form method="post" action="{{ url_for('resolve_flag', assignment_id=e['assignment_id'], dim=e['dim']) }}">
+      <div class="scale">
+        {% for choice in (['pass', 'fail'] if e['dim'] == 'overall' else score_choices) %}
+        <label class="opt {{ choice }}">
+          <input type="radio" name="score" value="{{ choice }}" {{ 'checked' if e['score'] == choice }}>
+          <span>{{ score_labels.get(choice, choice | capitalize) }}</span>
+        </label>
+        {% endfor %}
+      </div>
+      <input class="note" type="text" name="note"
+        placeholder="How you settled it (optional)" value="{{ e['note'] }}">
+      <div class="flag-actions">
+        <button type="submit" name="action" value="resolve" class="btn primary sm">Save &amp; resolve</button>
+        <button type="submit" name="action" value="save" class="btn sm">Save, keep flagged</button>
+        {% if not e['mine'] %}<span class="muted" style="font-size:.78rem;">writes to {{ e['owner'] }}'s scorecard</span>{% endif %}
+      </div>
+    </form>
+  </div>
+  {% endfor %}
+</div>
+{% endfor %}
+{% endblock %}

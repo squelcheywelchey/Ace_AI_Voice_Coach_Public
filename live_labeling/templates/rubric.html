@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}Rubric · Live-Call Labeling{% endblock %}
+{% block content %}
+<h1>Rubric <span class="muted">— the 9 judged dimensions (v2 DECIDED definitions)</span></h1>
+<p class="muted" style="max-width: 760px; margin: .4rem 0 1.2rem;">
+  These are the 9 dimensions the production eval server judges, with the same
+  v2 definitions used in round 2. Who scores what:
+  {% for name, dims in split.items() %}
+    <b>{{ name.split()[0] }}</b> — {{ dims | length }} dims{{ ' · ' if not loop.last }}
+  {% endfor %}
+  (marked on each dimension below).
+</p>
+
+{% for section_name, dims in grouped %}
+<div class="card">
+  <h2>{{ section_name }}</h2>
+  {% for c in dims %}
+  <div class="criterion" id="{{ c['id'] }}">
+    <div class="crit-head">
+      <span class="dim-num">{{ numbers[c['id']] }}</span> <strong>{{ c['name'] }}</strong>
+      {% for name, ids in split.items() %}
+      {% if c['id'] in ids %}<span class="badge in_progress">{{ name.split()[0] }}</span>{% endif %}
+      {% endfor %}
+    </div>
+    <p class="def-line"><span class="tag good">Pass</span> {{ c['definition'] }}</p>
+    {% if c['watch_for'] %}<p class="def-line"><span class="tag bad">Fail if</span> {{ c['watch_for'] }}</p>{% endif %}
+    {% if c['not_observed'] %}<p class="def-line"><span class="tag no">N/O when</span> {{ c['not_observed'] }}</p>{% endif %}
+    {% if c['pass_example'] or c['fail_example'] %}
+    <details class="anchors">
+      <summary>Worked examples (v2)</summary>
+      {% if c['pass_example'] %}<div class="ex pass"><span class="good">Pass example</span><pre>{{ c['pass_example'] }}</pre></div>{% endif %}
+      {% if c['fail_example'] %}<div class="ex fail"><span class="bad">Fail example</span><pre>{{ c['fail_example'] }}</pre></div>{% endif %}
+    </details>
+    {% endif %}
+  </div>
+  {% endfor %}
+</div>
+{% endfor %}
+{% endblock %}

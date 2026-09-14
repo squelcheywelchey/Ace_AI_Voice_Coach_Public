@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block title %}Compare · Coach Calibration{% endblock %}
+{% block content %}
+<h1>Round-2 agreement <span class="muted">— {{ names | join(' vs ') }}</span></h1>
+<p class="muted" style="margin: .4rem 0 1rem;">
+  P = pass, F = fail, – = not observed, · = unscored / not yours. Each of you covers
+  half the dimensions, so the per-dimension columns show coverage; the <b>Overall</b>
+  column is scored by both and highlights where you disagree.
+</p>
+
+<div class="matrix-wrap">
+<table class="list matrix compare-matrix">
+  <tr>
+    <th class="tcol">CEO ID</th>
+    <th>Labeler</th>
+    {% for c in criteria %}<th title="{{ c['name'] }}">{{ loop.index }}</th>{% endfor %}
+    <th>Overall</th>
+  </tr>
+  {% for it in items %}
+  {% set both_done = it['labelers'].values() | selectattr('status', 'equalto', 'done') | list | length == 2 %}
+  {% for name in names %}
+  {% set mine = it['labelers'].get(name) %}
+  <tr class="{{ 'row-sep' if loop.first }}">
+    {% if loop.first %}<td class="tcell" rowspan="{{ names | length }}"><strong>{{ it['ceo_id'] or '—' }}</strong></td>{% endif %}
+    <td class="tcell">{{ name.split()[0] }} <span class="badge {{ mine['status'] if mine else 'pending' }}">{{ (mine['status'] if mine else 'pending').replace('_',' ') }}</span></td>
+    {% for c in criteria %}
+    {% set vals = it['labelers'].values() | map(attribute='scores') | map(attribute=c['id'], default=None) | reject('none') | list %}
+    {% set v = mine['scores'].get(c['id']) if mine else None %}
+    {% set disagree = (vals | length) == 2 and (vals | unique | list | length) > 1 %}
+    <td class="cellstate {{ 'disagree' if disagree }}">
+      {{ 'P' if v == 'pass' else ('F' if v == 'fail' else ('–' if v == 'not_observed' else '·')) }}
+    </td>
+    {% endfor %}
+    {% set recs = it['labelers'].values() | map(attribute='recommend') | reject('none') | list %}
+    {% set rec_disagree = (recs | length) == 2 and (recs | unique | list | length) > 1 %}
+    <td class="cellstate {{ 'disagree' if rec_disagree }}">
+      {{ 'P' if mine and mine['recommend'] == 'pass' else ('F' if mine and mine['recommend'] == 'fail' else '·') }}
+    </td>
+  </tr>
+  {% endfor %}
+  {% endfor %}
+</table>
+</div>
+
+<p class="muted" style="margin-top: 1rem;">Columns:
+  {% for c in criteria %}{{ loop.index }} = {{ c['name'] }}{{ ' · ' if not loop.last }}{% endfor %}
+</p>
+{% endblock %}

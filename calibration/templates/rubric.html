@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+{% block title %}Rubric decisions · Coach Calibration{% endblock %}
+{% block content %}
+<h1>Rubric decisions</h1>
+<p class="muted" style="max-width: 780px; margin: .4rem 0 1.4rem;">
+  <b>Rubric v2 is decided and loaded</b> (from <code>coach_rubric_v2_decided.docx</code>,
+  2026-07-07) — the scoring pages now use the v2 definitions. Below, each dimension
+  shows the round-1 options (from 121 labels, 12 graders) with the decision recorded
+  in green. Two open items remain flagged for confirmation: the global not_observed
+  rule and the transcript-artifact rule.
+</p>
+
+<div class="card">
+  <h2>The core threshold question <span class="muted">— applies to every dimension</span></h2>
+  <p>The single largest driver of disagreement is not the definitions but where labelers
+  set the fail bar. Three implicit standards are in use:</p>
+  {% for name, desc in bars %}
+  <p class="def-line"><b>{{ name }}.</b> {{ desc }}</p>
+  {% endfor %}
+  <p class="decision-slot {{ 'decided' if decisions['global_bar'] }}">
+    <b>DECISION — global default bar:</b>
+    {{ decisions['global_bar'] or 'not yet decided (doc recommends Bar 2, with per-dimension exceptions noted explicitly)' }}
+  </p>
+
+  <h2 style="margin-top: 1.2rem;">Two supporting rules to settle at the same time</h2>
+  {% for rule in global_rules %}
+  <div class="rule-block">
+    <p class="def-line"><b>{{ rule['name'] }}.</b> {{ rule['text'] }}</p>
+    <ul>
+      {% for key, text in rule['options'] %}
+      <li><b>Option {{ key }}:</b> {{ text }}</li>
+      {% endfor %}
+    </ul>
+    <p class="decision-slot {{ 'decided' if decisions[rule['id']] }}">
+      <b>DECISION:</b> {{ decisions[rule['id']] or 'not yet decided' }}
+    </p>
+  </div>
+  {% endfor %}
+</div>
+
+<div class="card">
+  <h2>Round-1 grader groups</h2>
+  <table class="list">
+    <tr><th>Group</th><th>Fail rate</th><th>Alpha</th><th>Reading</th></tr>
+    {% for gid, ginfo in GROUPS.items() %}
+    <tr>
+      <td style="white-space: nowrap;"><span class="gbadge {{ gid|lower }}">{{ gid }}</span> {{ ginfo['label'].split('·')[1] }}</td>
+      <td>{{ ginfo['fail_rate'] }}</td>
+      <td>{{ ginfo['alpha'] }}</td>
+      <td style="max-width: 460px;">{{ ginfo['desc'] }}</td>
+    </tr>
+    {% endfor %}
+  </table>
+</div>
+
+{% for dim_id in ordered %}
+{% set n = notes.get(dim_id) %}
+{% set r = rubric_by_id[dim_id] %}
+{% if n %}
+<div class="card" id="{{ dim_id }}">
+  <h2>{{ loop.index }}. {{ r['name'] }} <code class="muted">{{ dim_id }}</code></h2>
+  <p class="def-line"><span class="tag good">Working consensus</span> {{ n['consensus'] }}</p>
+
+  <h3 class="subhead">Definition options</h3>
+  <ul>
+    {% for key, title, text in n['options'] %}
+    <li><b>Option {{ key }} — {{ title }}:</b> {{ text }}</li>
+    {% endfor %}
+  </ul>
+
+  <h3 class="subhead">Where does FAIL start?</h3>
+  <table class="list">
+    <tr><th>Fail line</th><th>A conversation FAILS if…</th><th>Anchor from the labeled data</th></tr>
+    {% for line, cond, anchor in n['fail_lines'] %}
+    <tr><td style="white-space: nowrap;">{{ line }}</td><td>{{ cond }}</td><td class="muted">{{ anchor }}</td></tr>
+    {% endfor %}
+  </table>
+
+  <p class="def-line" style="margin-top: .6rem;"><span class="tag bad">Observed conflicts</span> {{ n['conflicts'] }}</p>
+
+  {% set d = decisions['dimensions'].get(dim_id, {}) %}
+  <p class="decision-slot {{ 'decided' if d.get('definition') or d.get('fail_line') }}">
+    <b>DECISION:</b>
+    Definition option: {{ d.get('definition') or '____' }} ·
+    Fail line: {{ d.get('fail_line') or '____' }}
+  </p>
+</div>
+{% endif %}
+{% endfor %}
+{% endblock %}

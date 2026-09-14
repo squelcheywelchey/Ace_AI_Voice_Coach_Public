@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}Rubric check — results · Coach Labeling{% endblock %}
+{% block content %}
+<div class="page-head"><h1>Rubric check — results</h1></div>
+<p class="quiz-score">You got <strong>{{ correct }} of {{ total }}</strong> right.</p>
+<p class="muted quiz-intro">Have a quick look at any you missed — that's the rubric in action. When you're ready, continue to your transcripts. You won't need to retake this.</p>
+
+{% for r in results %}
+<div class="criterion quiz-result {{ 'ok' if r['ok'] else 'miss' }}">
+  <div class="crit-head">
+    <strong>{{ r['dim_name'] }}</strong>
+    <span class="result-tag">{{ '✓ correct' if r['ok'] else '✗ missed' }}</span>
+  </div>
+  <div class="ex"><span class="muted">Real-call example</span><pre>{{ r['example'] | speaker_rows }}</pre></div>
+  <p class="result-answer">You said <b>{{ r['answer'] }}</b> · correct answer:
+    <b class="{{ 'good' if r['correct'] == 'pass' else 'bad' }}">{{ r['correct'] }} example</b></p>
+  <p class="def-line"><span class="tag good">Pass</span> {{ r['definition'] }}</p>
+  {% if r['watch_for'] %}<p class="def-line"><span class="tag bad">Watch for</span> {{ r['watch_for'] }}</p>{% endif %}
+</div>
+{% endfor %}
+
+<div class="actions"><a class="btn primary" href="{{ url_for('index') }}">Continue to my transcripts →</a></div>
+{% endblock %}

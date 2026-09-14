@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}Rubric check · Coach Labeling{% endblock %}
+{% block content %}
+<div class="page-head"><h1>Quick rubric check</h1></div>
+<p class="quiz-intro">Before you start scoring transcripts, here's a one-time check to get familiar with the rubric. For each dimension below you'll see two real-call examples — <b>one is a Pass and one is a Fail</b>. Read the dimension, then label each example. You'll see the correct answers and explanations right after, and you only do this once.</p>
+
+<form method="post" action="{{ url_for('quiz_submit') }}">
+  {% for g in groups %}
+  <div class="criterion quiz-q">
+    <div class="crit-head"><span class="qnum">{{ loop.index }}.</span> <strong>{{ g['dim_name'] }}</strong></div>
+    <p class="def-line"><span class="tag good">Pass</span> {{ g['definition'] }}</p>
+    {% if g['watch_for'] %}<p class="def-line"><span class="tag bad">Watch for</span> {{ g['watch_for'] }}</p>{% endif %}
+    <p class="quiz-prompt muted">One of these is a <span class="good">Pass</span> example and one is a <span class="bad">Fail</span> — label each:</p>
+    {% for ex in g['examples'] %}
+    <div class="quiz-example">
+      <pre>{{ ex['text'] | speaker_rows }}</pre>
+      <div class="scale">
+        <label class="opt pass"><input type="radio" name="q{{ ex['idx'] }}" value="pass" required><span>Pass</span></label>
+        <label class="opt fail"><input type="radio" name="q{{ ex['idx'] }}" value="fail"><span>Fail</span></label>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  {% endfor %}
+  <div class="actions"><button class="btn primary" type="submit">See my results</button></div>
+</form>
+{% endblock %}

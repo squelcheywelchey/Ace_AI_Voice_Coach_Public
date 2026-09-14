@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+{% block title %}FAQ · Coach Labeling{% endblock %}
+{% block content %}
+<div class="page-head"><h1>FAQ</h1></div>
+<p class="faq-intro">Quick answers to common questions while you're scoring transcripts. Still stuck? Reach out to the team — and if something about the rubric or this tool feels off, flag it.</p>
+<p class="video-cta">🎥 <a href="https://youtu.be/2vGPCZcwTCI" target="_blank" rel="noopener">Watch the FAQ video</a></p>
+
+<section class="faq-group">
+  <h2>About this task</h2>
+
+  <div class="faq-item">
+    <h3>Is this a test of me?</h3>
+    <p>No. This is <strong>calibration</strong> — we're comparing how different coaches read the same calls so the AI's scoring can be checked against yours. We're evaluating the coach, not your performance; we just want your honest, considered read of each call.</p>
+  </div>
+
+  <div class="faq-item">
+    <h3>Am I evaluating the coach or the participant?</h3>
+    <p>The <strong>coach</strong> — the "Coach" speech bubbles. You're judging how well the AI coach did, never the participant's interview skills.</p>
+  </div>
+</section>
+
+<section class="faq-group">
+  <h2>Tagging evidence (Step 2)</h2>
+
+  <div class="faq-item">
+    <h3>Do the examples I tag need to be strong, clear matches to the rubric?</h3>
+    <p>No. Tag the moments that genuinely show the behavior (or its absence). They don't have to be textbook-perfect — "clear enough to me" is fine. The buckets capture <em>why</em> you're leaning a certain way, not an airtight case. If a snippet feels borderline, it's fine to leave it out.</p>
+  </div>
+
+  <div class="faq-item">
+    <h3>Am I expected to find an example for every behavior?</h3>
+    <p>No. Some behaviors won't come up in a given call. Tag evidence where you see it — it's completely normal for some dimensions to have nothing tagged.</p>
+  </div>
+
+  <div class="faq-item">
+    <h3>Can I tag both good and bad examples of the same behavior?</h3>
+    <p>Yes, definitely. One dimension can have both Good and Bad moments in the same call — drag each into the matching bucket. That mixed picture is exactly what you'll weigh when you grade.</p>
+  </div>
+
+  <div class="faq-item">
+    <h3>Do I have to use the Good / Bad buckets?</h3>
+    <p>They're encouraged — they make grading easier and capture your reasoning — but not strictly required.</p>
+  </div>
+
+  <div class="faq-item">
+    <h3>The transcript has garbled words or odd repeats — what do I do?</h3>
+    <p>These are auto-transcribed from phone calls, so you'll sometimes see transcription errors — repeated words, misheard phrases, or odd punctuation. Don't hold the transcription against the coach. Use your best judgment about what was most likely said, and score the coaching itself.</p>
+  </div>
+</section>
+
+<section class="faq-group">
+  <h2>Grading (Step 3)</h2>
+
+  <div class="faq-item">
+    <h3>If I didn't tag any example, should I still grade that dimension?</h3>
+    <p>Yes. The grade is your holistic read of the whole transcript, not a tally of tagged snippets. If the behavior never had a chance to show up, choose <strong>Not Observed</strong>. If it could have shown up and you have an overall impression, still grade Pass/Fail from your read.</p>
+  </div>
+
+  <div class="faq-item">
+    <h3>What's the difference between <em>Fail</em> and <em>Not Observed</em>?</h3>
+    <p><strong>Fail</strong> = the coach had the chance to show this behavior and didn't do it well. <strong>Not Observed</strong> = there was no opportunity to show it at all in this call.</p>
+  </div>
+
+  <div class="faq-item">
+    <h3>I tagged both good and bad examples of a behavior — how do I grade it?</h3>
+    <p>Use your overall judgment of the call, not a head-count. Ask: across the whole conversation, did the coach do this <em>well enough</em> to <strong>Pass</strong>, or did the misses outweigh it (<strong>Fail</strong>)? Weigh how central and frequent the good vs. bad moments were. If it's a genuine coin-flip, lean on the rubric definition and the "Watch for" line — and jot a quick note explaining your call.</p>
+  </div>
+
+  <div class="faq-item">
+    <h3>What if I'm marking Fail on almost everything?</h3>
+    <p>That's okay, and it may be the honest result — this coach has real weaknesses. Don't inflate grades to "balance things out." Judge each dimension on its own against the rubric. There's no target pass rate; we want your honest read.</p>
+  </div>
+</section>
+
+<section class="faq-group">
+  <h2>Practical</h2>
+
+  <div class="faq-item">
+    <h3>Will my progress be saved if I stop partway?</h3>
+    <p>Yes. <strong>Save draft</strong> keeps your tags, grades, and notes — come back anytime using your link and pick up where you left off.</p>
+  </div>
+
+  <div class="faq-item">
+    <h3>First names in the "Personally Identifiable Information" dimension?</h3>
+    <p>First names are fine. It's full names, age, Social Security numbers, and similar highly-confidential details that count as PII.</p>
+  </div>
+</section>
+{% endblock %}

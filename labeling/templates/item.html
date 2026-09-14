@@ -1,0 +1,277 @@
+{% extends "base.html" %}
+{% block title %}Review transcript · Coach Labeling{% endblock %}
+{% block main_class %}wizard-main{% endblock %}
+{% block content %}
+<div class="split-head">
+  <a class="back" href="{{ url_for('index') }}">← My Transcripts</a>
+  {% if user['is_admin'] %}<span class="meta">CEO ID {{ a['ceo_id'] or '—' }} · row {{ a['source_row'] }} · {{ a['assistant'] or '' }}</span>{% endif %}
+  <span class="badge {{ a['status'] }}">{{ a['status'].replace('_', ' ') }}</span>
+</div>
+
+<form method="post" action="{{ url_for('save_item', assignment_id=a['id']) }}" id="scoreform" class="wizard" data-step="{{ initial_step }}">
+  <input type="hidden" name="current_step" id="current_step" value="{{ initial_step }}">
+  <!-- step nav -->
+  <div class="stepper">
+    <button type="button" class="step" data-go="1"><b>1</b> Review rubric</button>
+    <button type="button" class="step" data-go="2"><b>2</b> Tag evidence</button>
+    <button type="button" class="step" data-go="3"><b>3</b> Grade</button>
+  </div>
+
+  <!-- per-stage instruction bar -->
+  <div class="instruction-bar">
+    <div class="instruction-box">
+      <span class="instruction-label">★ What to do here</span>
+      <div class="instruction-text">
+        <p class="instr instr-1"><b>Refresh your memory</b> on the rubric dimensions below before you start. <a class="vid-link" href="https://youtu.be/4llbpmUrpyw" target="_blank" rel="noopener">🎥 Watch the scoring walkthrough</a></p>
+        <p class="instr instr-2"><b>Grab speech bubbles</b> (or groups of speech bubbles) that show the coach clearly doing the behavior well — drop those in <span class="good">GOOD</span> — or moments where the coach should have done it but failed to — drop those in <span class="bad">BAD</span>. <em>Note: these are auto-transcribed phone calls, so some lines may contain transcription errors — please use your best judgment when evaluating the conversation.</em></p>
+        <p class="instr instr-3"><b>Consider the transcript holistically.</b> For each dimension, did the coach <span class="good">PASS</span> or <span class="bad">FAIL</span>? If there was no opportunity for the coach to show a behavior, choose <span class="muted">Not Observed</span>.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="step-body">
+    <!-- transcript (step 2 only) -->
+    <section class="transcript-pane">
+      <h2>Transcript</h2>
+      <p class="transcript-hint">Click speech bubbles to select (shift-click for a range), then drag them into a <span class="good">Good</span> or <span class="bad">Bad</span> bucket. You can drag a single bubble without selecting, too.</p>
+      <div class="transcript">
+        {% for t in turns %}
+        <div class="turn {{ 'ai' if t['speaker'] == 'AI' else 'user' }}" draggable="true"
+             data-blob="{{ ('Coach' if t['speaker'] == 'AI' else 'Participant') ~ ': ' ~ t['text'] }}">
+          <span class="speaker">{{ 'Coach' if t['speaker'] == 'AI' else 'Participant' }} <span class="drag-hint">⠿ drag</span></span>
+          <p>{{ t['text'] }}</p>
+        </div>
+        {% endfor %}
+      </div>
+    </section>
+
+    <!-- rubric / dimensions -->
+    <section class="rubric-pane">
+      <h2 class="step-title step1-title">Review the rubric <span class="muted">— {{ n_dims }} dimensions you'll be scoring</span></h2>
+      <h2 class="step-title step2-title">Tag evidence <span class="muted">— drag speech bubbles into Good / Bad</span></h2>
+      <h2 class="step-title step3-title">Holistic grade <span class="muted">— Pass / Fail / Not Observed per dimension</span></h2>
+
+      {% set ns = namespace(num=0) %}
+      {% for section_name, dims in grouped %}
+      <div class="section-group">
+        <h3 class="section-title">{{ section_name }}</h3>
+        {% for c in dims %}
+        {% set ns.num = ns.num + 1 %}
+        <div class="criterion">
+          <div class="crit-head"><span class="dim-num">{{ ns.num }}</span> <strong>{{ c['name'] }}</strong></div>
+          <p class="def-line"><span class="tag good">Pass</span> {{ c['definition'] }}</p>
+          {% if c['watch_for'] %}<p class="def-line"><span class="tag bad">Watch for</span> {{ c['watch_for'] }}</p>{% endif %}
+
+          <!-- step 1: full examples -->
+          {% if c['pass_example'] or c['fail_example'] %}
+          <div class="crit-examples">
+            <details class="anchors">
+              <summary>Real-call examples</summary>
+              {% if c['pass_example'] %}<div class="ex pass"><span class="good">Pass example</span><pre>{{ c['pass_example'] | speaker_rows }}</pre></div>{% endif %}
+              {% if c['fail_example'] %}<div class="ex fail"><span class="bad">Fail example</span><pre>{{ c['fail_example'] | speaker_rows }}</pre></div>{% endif %}
+            </details>
+          </div>
+          {% endif %}
+
+          <!-- steps 2 & 3: evidence buckets -->
+          <div class="crit-buckets">
+            <div class="buckets">
+              <div class="bucket good" data-dim="{{ c['id'] }}" data-verdict="good">
+                <div class="bucket-head"><span class="good">✓ Good</span><span class="bucket-hint">drag turns here</span></div>
+                <div class="chips"></div>
+              </div>
+              <div class="bucket bad" data-dim="{{ c['id'] }}" data-verdict="bad">
+                <div class="bucket-head"><span class="bad">✗ Bad</span><span class="bucket-hint">drag turns here</span></div>
+                <div class="chips"></div>
+              </div>
+            </div>
+            <input type="hidden" name="evidence_good_{{ c['id'] }}" data-ev="{{ c['id'] }}:good"
+                   value='{{ saved_evidence.get(c["id"], {}).get("good", []) | tojson }}'>
+            <input type="hidden" name="evidence_bad_{{ c['id'] }}" data-ev="{{ c['id'] }}:bad"
+                   value='{{ saved_evidence.get(c["id"], {}).get("bad", []) | tojson }}'>
+          </div>
+
+          <!-- step 3: verdict -->
+          <div class="crit-grade">
+            <div class="scale">
+              {% for choice in score_choices %}
+              <label class="opt {{ choice }}">
+                <input type="radio" name="score_{{ c['id'] }}" value="{{ choice }}"
+                  {{ 'checked' if saved_scores.get(c['id']) == choice }}>
+                <span>{{ score_labels[choice] }}</span>
+              </label>
+              {% endfor %}
+            </div>
+            <label class="note-label">Note for this dimension <span class="muted">— saved when you Save draft or Submit</span></label>
+            <input class="note" type="text" name="note_{{ c['id'] }}"
+              placeholder="Optional note / quote" value="{{ saved_notes.get(c['id'], '') }}">
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+      {% endfor %}
+
+      <div class="criterion overall step3-only">
+        <div class="crit-head"><strong>Overall impression</strong></div>
+        <p class="def-line">Would you recommend the AI coach you saw in this transcript to your participant?</p>
+        <div class="scale">
+          <label class="opt pass"><input type="radio" name="would_recommend" value="pass"
+            {{ 'checked' if a['overall_quality'] == 'pass' }}><span>Pass</span></label>
+          <label class="opt fail"><input type="radio" name="would_recommend" value="fail"
+            {{ 'checked' if a['overall_quality'] == 'fail' }}><span>Fail</span></label>
+        </div>
+        <label class="note-label">Overall notes <span class="muted">— optional, saved when you Save draft or Submit</span></label>
+        <textarea name="overall_notes" rows="3" placeholder="Anything else about this call (optional)">{{ a['overall_notes'] or '' }}</textarea>
+      </div>
+    </section>
+  </div>
+
+  <!-- wizard actions -->
+  <div class="wizard-actions">
+    <button type="button" class="btn" data-nav="back">← Back</button>
+    <span class="spacer"></span>
+    <button type="submit" name="action" value="save" class="btn">Save draft</button>
+    <button type="button" class="btn primary" data-nav="next">Next →</button>
+    <button type="submit" name="action" value="submit" class="btn primary submit-btn">Submit</button>
+  </div>
+</form>
+
+<script>
+(function () {
+  var wizard = document.getElementById('scoreform');
+
+  // --- step navigation ------------------------------------------------------
+  var stepField = document.getElementById('current_step');
+  function setStep(n) {
+    n = Math.max(1, Math.min(3, n));
+    wizard.dataset.step = n;
+    if (stepField) stepField.value = n;
+    document.querySelectorAll('.stepper .step').forEach(function (s) {
+      var g = Number(s.dataset.go);
+      s.classList.toggle('active', g === n);
+      s.classList.toggle('done', g < n);
+    });
+    // examples auto-open while reviewing (step 1), collapsed elsewhere
+    document.querySelectorAll('.crit-examples details').forEach(function (d) { d.open = (n === 1); });
+    // dragging is only for the Tag-evidence step; disable it (and clear any selection) elsewhere
+    document.querySelectorAll('.turn').forEach(function (t) { t.draggable = (n === 2); });
+    if (n !== 2) document.querySelectorAll('.turn.selected').forEach(function (t) { t.classList.remove('selected'); });
+    var sb = wizard.querySelector('.step-body');
+    if (sb) sb.scrollTop = 0;
+    window.scrollTo(0, 0);
+  }
+  document.querySelectorAll('.stepper .step').forEach(function (s) {
+    s.addEventListener('click', function () { setStep(Number(s.dataset.go)); });
+  });
+  wizard.querySelector('[data-nav="next"]').addEventListener('click', function () {
+    setStep(Number(wizard.dataset.step) + 1);
+  });
+  wizard.querySelector('[data-nav="back"]').addEventListener('click', function () {
+    setStep(Number(wizard.dataset.step) - 1);
+  });
+
+  // Pressing Enter in a note field must NOT submit the form (it was wiping progress)
+  wizard.addEventListener('keydown', function (e) {
+    if (e.key === 'Enter' && e.target.tagName === 'INPUT' && e.target.type !== 'submit') {
+      e.preventDefault();
+    }
+  });
+
+  // --- transcript selection (click / shift-click) --------------------------
+  var turns = Array.from(document.querySelectorAll('.turn[draggable="true"]'));
+  var lastClicked = null;
+  var dragGhost = null;
+  function clearSelection() { turns.forEach(function (t) { t.classList.remove('selected'); }); }
+
+  turns.forEach(function (turn, idx) {
+    turn.addEventListener('click', function (e) {
+      if (wizard.dataset.step !== '2') return;  // selection only while tagging evidence
+      if (e.shiftKey && lastClicked !== null) {
+        var lo = Math.min(lastClicked, idx), hi = Math.max(lastClicked, idx);
+        for (var i = lo; i <= hi; i++) turns[i].classList.add('selected');
+      } else {
+        turn.classList.toggle('selected');
+        lastClicked = turn.classList.contains('selected') ? idx : null;
+      }
+    });
+    turn.addEventListener('dragstart', function (e) {
+      var blobTurns = turn.classList.contains('selected')
+        ? turns.filter(function (t) { return t.classList.contains('selected'); })
+        : [turn];
+      e.dataTransfer.setData('text/plain', blobTurns.map(function (t) { return t.dataset.blob; }).join('\n'));
+      e.dataTransfer.effectAllowed = 'copy';
+      // when dragging more than one turn, show them all in the drag image
+      if (blobTurns.length > 1) {
+        dragGhost = document.createElement('div');
+        dragGhost.className = 'drag-ghost';
+        var count = document.createElement('div');
+        count.className = 'ghost-count';
+        count.textContent = blobTurns.length + ' speech bubbles';
+        dragGhost.appendChild(count);
+        blobTurns.forEach(function (t) {
+          var clone = t.cloneNode(true);
+          clone.classList.remove('selected');
+          dragGhost.appendChild(clone);
+        });
+        document.body.appendChild(dragGhost);
+        e.dataTransfer.setDragImage(dragGhost, 16, 16);
+      }
+    });
+    turn.addEventListener('dragend', function () {
+      if (dragGhost) { dragGhost.remove(); dragGhost = null; }
+    });
+  });
+
+  // --- buckets --------------------------------------------------------------
+  function hiddenFor(dim, verdict) { return document.querySelector('input[data-ev="' + dim + ':' + verdict + '"]'); }
+  function sync(bucket) {
+    var el = hiddenFor(bucket.dataset.dim, bucket.dataset.verdict);
+    if (!el) return;
+    var quotes = Array.from(bucket.querySelectorAll('.chip')).map(function (c) { return c.dataset.text; });
+    el.value = JSON.stringify(quotes);
+  }
+  function makeChip(text) {
+    var chip = document.createElement('span');
+    chip.className = 'chip'; chip.dataset.text = text;
+    var label = document.createElement('span'); label.className = 'chip-text'; label.textContent = text;
+    var x = document.createElement('button');
+    x.type = 'button'; x.className = 'chip-x'; x.textContent = '×';
+    x.addEventListener('click', function () { var b = chip.closest('.bucket'); chip.remove(); sync(b); });
+    chip.appendChild(label); chip.appendChild(x);
+    return chip;
+  }
+  function addQuote(bucket, text) {
+    if (!text) return;
+    var dupe = Array.from(bucket.querySelectorAll('.chip')).some(function (c) { return c.dataset.text === text; });
+    if (dupe) return;
+    bucket.querySelector('.chips').appendChild(makeChip(text));
+    sync(bucket);
+  }
+  document.querySelectorAll('.bucket').forEach(function (bucket) {
+    bucket.addEventListener('dragover', function (e) {
+      if (wizard.dataset.step !== '2') return;  // no dropping once grading
+      e.preventDefault(); bucket.classList.add('over');
+    });
+    bucket.addEventListener('dragleave', function () { bucket.classList.remove('over'); });
+    bucket.addEventListener('drop', function (e) {
+      if (wizard.dataset.step !== '2') return;
+      e.preventDefault(); bucket.classList.remove('over');
+      addQuote(bucket, e.dataTransfer.getData('text/plain'));
+      clearSelection();
+    });
+    // repopulate saved evidence (drafts)
+    var quotes = [];
+    try { quotes = JSON.parse(hiddenFor(bucket.dataset.dim, bucket.dataset.verdict).value || '[]'); } catch (e) {}
+    quotes.forEach(function (t) { bucket.querySelector('.chips').appendChild(makeChip(t)); });
+  });
+
+  // Belt-and-suspenders: re-serialize every bucket into its hidden field right
+  // before the form submits, so what's visible is always what gets saved.
+  wizard.addEventListener('submit', function () {
+    document.querySelectorAll('.bucket').forEach(function (b) { sync(b); });
+  });
+
+  setStep(Number(wizard.dataset.step) || 1);
+})();
+</script>
+{% endblock %}

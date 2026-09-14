@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}Log in · Coach Calibration{% endblock %}
+{% block content %}
+<div class="login-card">
+  <span class="ceo-logo lg">ceo</span>
+  <h1>Coach Calibration</h1>
+  <p class="org">Round 2 — narrowing the rubric</p>
+  <form method="post">
+    <input type="hidden" name="next" value="{{ next }}">
+    <label>Your passcode
+      <input type="text" name="passcode" autofocus autocomplete="off">
+    </label>
+    <button class="btn primary" type="submit">Log in</button>
+  </form>
+</div>
+{% endblock %}
