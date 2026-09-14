@@ -1,0 +1,60 @@
+# --- Secrets ---
+.env
+*.secret_key
+.secret_key
+
+# --- Participant data. Never commit. See DATA.md. ---
+# The real call corpus and anything derived from it stays out of this repo.
+*.tsv
+!data/sim_calls.tsv
+!data/voice_sim_calls.tsv
+!data/synthetic_*.tsv
+Output*.tsv
+pcpt_*.tsv
+eval_corpus.tsv
+live_ab_calls.tsv
+labeling_set_live*.tsv
+
+# Scored output / evidence quotes derived from real calls
+*.jsonl
+coach_eval.jsonl
+coach_eval.xlsx
+judge_eval.jsonl
+value_add_eval.jsonl
+value_add_eval.xlsx
+summary_report.txt
+findings.md
+
+# Human labels keyed to real calls (carry ceo_id + verbatim excerpts)
+**/labels/consensus_*.csv
+**/labels/master_labels.csv
+**/splits/**/split_reference.csv
+**/outputs/
+test_cases.json
+
+# Local app databases (contain transcripts + labeler passcodes)
+*.db
+*.db.bak
+**/backups/
+
+# Program documents (participant/program material)
+*.xlsx
+*.docx
+*.pptx
+*.pdf
+report*.csv
+
+# Dashboards built from the live corpus
+dashboard*.html
+!dashboard_template.html
+ab_dashboard.html
+live_dashboard.html
+_preview_*.html
+
+# --- Housekeeping ---
+__pycache__/
+*.pyc
+.DS_Store
+.Rhistory
+outputs/
+checkpoint_*.csv
