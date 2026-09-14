@@ -1,0 +1,40 @@
+# adapts_when_stuck — v1 (faithful transcription of decided Rubric v2)
+# Source: calibration/rubric.py "adapts_when_stuck" (Rubric v2 DECIDED, 2026-07-08,
+#   Option A — ANY responsive change counts, incl. graceful move-on).
+# Baseline: no cleverness, no anticipated fixes. Prose descriptions only — the
+#   rubric's two anchor transcripts are NOT quoted (pass-anchor fell in the test
+#   split; fail-anchor is labeled not_observed in the final labels — flagged in
+#   findings). N/A is a real, scored class here (~70% of calls).
+
+dimension: adapts_when_stuck
+
+definition: >
+  When the user shows frustration, confusion, or drift, does the coach make a
+  responsive change? ANY responsive change counts — slowing down ("Take your
+  time"), reframing or rephrasing the question, redirecting a rant back to the
+  task, or gracefully moving on ("No problem. Let's move on to the next
+  question."). Evaluate the COACH's (AI:) turns only. These are speech-to-text
+  transcripts, so expect disfluencies and split/merged turns.
+
+pass: >
+  There is at least one moment where the user shows an EXPLICIT distress,
+  confusion, frustration, or drift signal (e.g. "I don't know", profanity-laced
+  frustration, agitation, repeated broken/false-started words, going off on a
+  tangent), AND the coach responds to that moment with ANY responsive change:
+  rephrasing or simplifying the question, slowing down / reassuring, redirecting
+  the tangent back to the interview, or gracefully moving on. Missing a faint or
+  ambiguous cue is not disqualifying — a single clear signal met with a
+  responsive change is enough to PASS.
+
+fail: >
+  A clear, explicit distress or confusion signal is met with the coach
+  continuing the scripted template UNCHANGED — most tellingly, the identical
+  canned line repeated while the user's agitation or confusion escalates. The
+  coach presses on as if the signal were not there.
+
+na: >
+  No stuck, frustrated, confused, or drifting moment occurs anywhere in the
+  session — there is simply no signal for the coach to adapt to. This is the
+  correct verdict for a calm, on-track session, and it is the most common case.
+  Do NOT invent a stuck moment; if the user never shows a real distress/confusion
+  signal, return N/A rather than PASS or FAIL.

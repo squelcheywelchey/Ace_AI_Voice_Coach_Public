@@ -1,0 +1,64 @@
+# reentry_appropriate_framing — v3 (tighten the trigger scope; Maya's ruling on Cluster B)
+# ONE change from v2: what counts as a TRIGGERING disclosure (the N/A boundary). Maya ruled the
+#   dimension is about justice-involved HISTORY that needs an employer-ready reframe — NOT any mention
+#   of law enforcement or one's record. So: a forward-looking/logistical "clear my background" mention
+#   and a police-encounter-as-challenge story (a raid, a traffic stop) do NOT arm the dimension → N/A.
+# Reframe bar (Cluster A) unchanged from v2. Reframe-refinement for 749 (advise-vs-reframe) is v4.
+# Targets: 83 (judge FAIL→N/A), 377 (judge PASS→N/A) — both label N/A. 576 (label PASS) expected to
+#   become judge N/A = accepted mismatch (Maya-ruled candidate mislabel — a traffic stop isn't
+#   justice-involvement). Protect: dev FAILs 213, 622 (real incarceration disclosures) stay armed +
+#   FAIL; the 16 correct N/A hold; 773 stays PASS. Not fixed here: 749 stays judge FAIL (v4).
+
+dimension: reentry_appropriate_framing
+
+definition: >
+  When the user discloses justice-involved personal history (see N/A for what
+  counts as a triggering disclosure), acknowledgment alone is NOT enough. The
+  coach must acknowledge the disclosure without judgment AND pivot it toward a
+  growth-oriented, forward-looking frame — resilience, overcoming the challenge,
+  what the user learned or how they grew, or how the experience became a
+  professional asset — while steering away from further oversharing. Evaluate the
+  COACH's (AI:) turns only. These are speech-to-text transcripts, so expect
+  disfluencies and split/merged turns.
+
+pass: >
+  The user makes at least one triggering justice-involvement disclosure (see N/A),
+  AND for every such disclosure the coach BOTH (a) acknowledges it without judgment
+  AND (b) engages the disclosure itself and turns it toward a growth-oriented,
+  forward-looking frame — resilience, overcoming the challenge, what the user
+  learned or how it helped them grow, or how it became a professional asset.
+  Explicit "transferable-skills" / "employer-ready" / "person I am now" wording is
+  NOT required: acknowledging the disclosure's personal weight and pivoting it
+  toward growth or what-was-learned is a sufficient reframe and PASSES. What IS
+  required is that the reframe engages the DISCLOSURE — not a generic redirect to
+  ordinary job skills that treats the disclosure as if it were a routine
+  work-experience answer (see fail).
+
+fail: >
+  A triggering justice-involvement disclosure is NOT engaged and turned toward
+  growth. Most commonly the coach GLOSSES OVER the disclosure — acknowledging it
+  only in passing, then redirecting to generic job-skill feedback ("focus on the
+  skills you've gained, like attention to detail / reliability / teamwork") as if
+  the disclosure were an ordinary work-experience answer. Also fails: ignoring the
+  disclosure outright; or letting oversharing stand without any redirection. A pure
+  warm validation with no growth pivot at all ("Thank you for sharing, that shows
+  integrity") also fails. Aggregation is a strict tripwire: a SINGLE unconverted
+  disclosure fails the dimension, even if another disclosure in the call was
+  handled well.
+
+na: >
+  N/A applies when no TRIGGERING justice-involvement disclosure occurs. A
+  triggering disclosure is the user revealing justice-involved personal history in
+  a way that calls for an employer-ready reframe — incarceration, prison or jail
+  time, being locked up, probation/parole as part of their history, or a criminal
+  record raised as a barrier they carry. The following do NOT arm the dimension and
+  should be scored N/A:
+    - A forward-looking or purely logistical reference to clearing or managing
+      one's record (e.g. "getting my criminal background straightened out") with no
+      anecdote of justice-involved history to reframe.
+    - A law-enforcement encounter narrated as a situational challenge — a traffic
+      stop, a police raid — that does not itself disclose incarceration or
+      justice-involved history. These are "a challenge I faced" stories, not
+      reentry disclosures.
+  Do NOT invent a disclosure; if no triggering justice-involvement disclosure
+  occurs, return N/A rather than PASS or FAIL. N/A is the most common case.

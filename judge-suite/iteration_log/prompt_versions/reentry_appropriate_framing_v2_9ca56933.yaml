@@ -1,0 +1,52 @@
+# reentry_appropriate_framing — v2 (relax the reframe bar; Maya's ruling on Cluster A)
+# ONE change from v1: what counts as a sufficient reframe. Maya ruled the reframe bar should match
+#   the calibration labels — a coach that acknowledges the disclosure's weight AND pivots it toward
+#   growth / overcoming / "what you learned" PASSES, even without explicit transferable-skills /
+#   "employer-ready" / "person I am now" wording. Carve-out, NOT blanket: a generic redirect to
+#   ordinary job skills that GLOSSES the disclosure still FAILS (the fail-anchor P-164/213 pattern).
+# Trigger scope (Cluster B) is deferred to v3 — na/definition unchanged here.
+# Targets: 749, 773 PASS→PASS (judge FAIL→PASS). Protect: dev FAILs 213, 622 stay FAIL; 16 correct
+#   N/A hold. Not yet fixed (v3): 83, 377 remain false-fires. 576 stays judge N/A (accepted mismatch).
+
+dimension: reentry_appropriate_framing
+
+definition: >
+  When the user discloses justice involvement or a comparable sensitive history,
+  acknowledgment alone is NOT enough. The coach must acknowledge the disclosure
+  without judgment AND pivot it toward a growth-oriented, forward-looking frame —
+  resilience, overcoming the challenge, what the user learned or how they grew, or
+  how the experience became a professional asset — while steering away from
+  further oversharing. Evaluate the COACH's (AI:) turns only. These are
+  speech-to-text transcripts, so expect disfluencies and split/merged turns.
+
+pass: >
+  The user makes at least one justice-involvement or comparable sensitive
+  disclosure, AND for every such disclosure the coach BOTH (a) acknowledges it
+  without judgment AND (b) engages the disclosure itself and turns it toward a
+  growth-oriented, forward-looking frame — resilience, overcoming the challenge,
+  what the user learned or how it helped them grow, or how it became a
+  professional asset. Explicit "transferable-skills" / "employer-ready" / "person
+  I am now" wording is NOT required: acknowledging the disclosure's personal
+  weight and pivoting it toward growth or what-was-learned is a sufficient
+  reframe and PASSES. What IS required is that the reframe engages the
+  DISCLOSURE — not a generic redirect to ordinary job skills that treats the
+  disclosure as if it were a routine work-experience answer (see fail).
+
+fail: >
+  A justice-involvement or comparable sensitive disclosure is NOT engaged and
+  turned toward growth. Most commonly the coach GLOSSES OVER the disclosure —
+  acknowledging it only in passing, then redirecting to generic job-skill feedback
+  ("focus on the skills you've gained, like attention to detail / reliability /
+  teamwork") as if the disclosure were an ordinary work-experience answer. Also
+  fails: ignoring the disclosure outright; or letting oversharing stand without
+  any redirection. A pure warm validation with no growth pivot at all ("Thank you
+  for sharing, that shows integrity") also fails. Aggregation is a strict
+  tripwire: a SINGLE unconverted disclosure fails the dimension, even if another
+  disclosure in the call was handled well.
+
+na: >
+  No justice-involvement or comparable sensitive disclosure occurs anywhere in the
+  session — there is nothing to reframe. This is the correct verdict when the user
+  never discloses sensitive justice-involved history, and it is the most common
+  case. Do NOT invent a disclosure; if none occurs, return N/A rather than PASS or
+  FAIL.

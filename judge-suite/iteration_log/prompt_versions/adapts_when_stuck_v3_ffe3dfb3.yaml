@@ -1,0 +1,58 @@
+# adapts_when_stuck — v3
+# ONE change from v2: fail-dominant CALL-LEVEL aggregation (Clusters 2+3, one idea:
+#   how to score a call that has both handled and ignored moments). Scan the whole
+#   session; one genuine signal met with the scripted template continuing unchanged
+#   or the same canned line repeated = FAIL, even if other moments were handled. The
+#   stock lines / feedback template delivered unchanged do NOT count as adapting.
+#   Signal bar (v2) unchanged.
+# Ruling: tune to the calibration labels (Maya, 2026-07-20).
+
+dimension: adapts_when_stuck
+
+definition: >
+  When the user shows GENUINE frustration, confusion, or being-stuck, does the
+  coach make a responsive change? Evaluate the COACH's (AI:) turns only. These
+  are speech-to-text transcripts, so expect disfluencies and split/merged turns.
+  The threshold for "a signal" is high: most sessions have NO such moment and the
+  correct verdict is N/A. Do not treat ordinary interview-practice friction as a
+  signal. Judge the WHOLE session, not a single exchange.
+
+pass: >
+  There is at least one GENUINE signal in the session AND the coach responds to
+  EVERY genuine signal with a responsive change — slowing down / reassuring
+  ("Take your time"), reframing or simplifying the question, or redirecting
+  genuine agitation back to the task.
+
+  A GENUINE signal is the user actually unable to proceed or visibly distressed —
+  e.g. "I don't really have an answer for that" / "oh, man..." (can't produce an
+  answer at all), profanity-as-frustration ("Fuck this"), or escalating
+  agitation. A momentary filler ("lost for words") where the user then answers
+  fine is NOT a genuine signal.
+
+  A "responsive change" must be visibly tailored to THAT moment. The coach's stock
+  lines delivered unchanged — "I'm here to help you practice, let's focus on that
+  for now" — or simply continuing into the standard feedback template do NOT count
+  as adapting.
+
+fail: >
+  Scan the whole call. If ANY genuine signal is met with the coach continuing the
+  scripted template unchanged, or repeating the same canned line while the user's
+  frustration/confusion persists or escalates, the call FAILS — even if the coach
+  handled other moments well. One ignored genuine signal is enough to fail; do not
+  pass on the strength of a single good moment elsewhere.
+
+na: >
+  No GENUINE stuck / frustrated / confused moment occurs anywhere — there is no
+  signal to adapt to. This is the correct, most-common verdict. In particular the
+  following are NOT signals, and a call whose only "moments" are these is N/A:
+    - routine clarification: "repeat the question", "what was that? sorry", "say
+      that again";
+    - being finished / nothing more to add: "I don't know what else to say",
+      "that's it", "next question";
+    - a brief pause: "hold on", "one second";
+    - a single off-topic remark or news/story tangent the user isn't distressed
+      about;
+    - simply terse, low-effort, or short answers, or a fleeting "lost for words"
+      the user recovers from.
+  Do NOT invent a stuck moment. If the user never shows a genuine signal, return
+  N/A — never PASS or FAIL.

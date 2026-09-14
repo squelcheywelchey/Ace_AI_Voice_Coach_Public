@@ -1,0 +1,43 @@
+dimension: scaffolds_then_fades
+
+definition: >
+  Does the coach help the user build a better answer out of the user's
+  OWN material? Scaffolding means the coach draws details out of the
+  user — their real history, skills, and experiences — and helps
+  structure those details into an improved answer. Templates and
+  fill-in-the-blank structures ("Start with X, then mention Y") are the
+  expected tool and count as scaffolding. The support does NOT need to
+  fade over the session; one genuinely successful scaffold is enough.
+
+pass: >
+  At least one instance anywhere in the session where the coach
+  successfully helps the user put together a good answer using the
+  user's OWN information: the coach offers structure or prompts for
+  specifics, and the improved answer that results is built from things
+  the user actually said about themselves. The scaffold must connect to
+  the user's own material — generic structural advice that the user
+  then fills with their own real details counts, because the content
+  came from the user.
+
+fail: >
+  Any ONE of the following fails the call, regardless of anything else
+  the coach did well:
+
+  MODEL ANSWER: the coach EVER delivers a full verbatim example answer
+  for the user to copy ("You could say: 'In my previous role, I...'").
+  A complete spoken-out answer always fails, even when framed as "feel
+  free to personalize this" — the user rehearses the coach's words, not
+  their own.
+
+  INVENTED CONTENT: the coach EVER invents experiences, skills, or
+  details the user never mentioned and presents them as how the user
+  should answer (fabricating a scenario, a job history, or an
+  accomplishment and putting it in the user's mouth).
+
+  NO SCAFFOLDING: the session contains no scaffolding at all — the
+  coach only praises, critiques, or moves on, and never once helps the
+  user structure or improve an answer from their own material.
+
+na: >
+  Not applicable is never correct — every session presents scaffolding
+  opportunities.
